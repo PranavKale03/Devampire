@@ -1,0 +1,84 @@
+.main-nav{
+    min-height: 50px;
+    width: 100%;
+    margin: auto;
+    border-top: solid 3px #ef8236;
+    box-shadow: 0px 1px 5px #00000033;
+    position: fixed;
+    z-index: 5;
+    top: 0%;
+    left: 0%;
+    background-color: #10151D;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar{
+    height: 100%;
+    min-width: 85%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-logo{
+    padding: 5px 25px;
+}
+
+.nav-item{
+    margin: 0px 3px;
+    font-size: small;
+    font-weight: 500;
+    text-decoration: none;
+    color: #737980;
+    transition: 0.2s;
+}
+
+.nav-btn{
+    cursor: pointer;
+    border-radius: 20px;
+    padding: 10px 20px;
+}
+
+.nav-item:hover{
+    /* background-color: #252627; */
+    color: #ffffff;
+}
+
+.navbar form{
+    flex-grow: 1;
+    padding: 0px 12px;
+    position: relative;
+}
+
+.navbar form input{
+    min-width: 90%;
+    margin: 0;
+    padding: 8px 10px 8px 32px;
+    font-size: 13px;
+    border: solid 1px #000;
+    border-radius: 18px;
+    background-color: #292b2d;
+    color: #ffffff;
+}
+
+.navbar form .search-icon{
+    position: absolute;
+    left: 25px;
+    top: 8px;
+    color: #60666f;
+}
+
+.nav-links{
+    padding: 7px 13px;
+    /* border: solid 1px rgb(145, 145, 157); */
+    border-radius: 15px;
+    /* background-color: linear-gradient(to right, blue , purple); */
+    cursor: pointer;
+}
+
+/* .nav-links:hover{
+    background-color: linear-gradient(to right, blue , purple);
+    background: linear-gradient(180deg, #326fcb 0%, #7f37ba 100%);
+} */
