@@ -64,24 +64,24 @@ const Auth = () => {
               { !isSignup && <p style={{color:'#007ac6', fontSize:'13px'}}>forgot password?</p>}
             </div>            
             <input type="password" name="password" id="password" onChange={(e) => {setPassword(e.target.value)}}/>
-            { isSignup && <p style={{color:'#666767', fontSize:'13px'}}>Password must contain at least eight<br />characters, including at least 1 letter and 1<br />number.</p>}
+            { isSignup && <p style={{color:'#eff7fe', fontSize:'13px'}}>Password must contain at least eight<br />characters, including at least 1 letter and 1<br />number.</p>}
           </label>
           {
             isSignup && (
               <label htmlFor="check" style={{display: 'flex', justifyContent:'space-around'}}>
                 <input type="checkbox" id="check" style={{width:'18px'}}/>
-                <p style={{fontSize:'13px'}}>Opt-in to receive occasional<br />product updates, user research invitations,<br />company announcements, and digests.</p>
+                <p style={{fontSize:'13px', color: '#eff7fe'}}>Opt-in to receive occasional<br />product updates, user research invitations,<br />company announcements, and digests.</p>
               </label>
             )
           }
           <button type="submit" className="auth-btn">{ isSignup ? 'Sign up' : 'Log in'}</button>
           {
             isSignup && (
-              <p style={{color:'#666767', fontSize:'13px'}}>
+              <p style={{color:'#eff7fe', fontSize:'13px'}}>
                 By clicking "Sign up", you agree to our
-                <span style={{color:'#007ac6'}}> terms of<br />service</span>, 
-                <span style={{color:'#007ac6'}}> privacy policy</span> and 
-                <span style={{color:'#007ac6'}}> cookie policy</span>
+                <span style={{color:'#eff7fe'}}> terms of<br />service</span>, 
+                <span style={{color:'#eff7fe'}}> privacy policy</span> and 
+                <span style={{color:'#eff7fe'}}> cookie policy</span>
               </p>
             )
           }

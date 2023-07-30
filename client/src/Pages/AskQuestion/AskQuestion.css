@@ -1,6 +1,6 @@
 .ask-question {
     min-height: 100vh;
-    background-color: #f1f2f3;
+    background-color: #000;
 }
   
 .ask-ques-container {
@@ -11,11 +11,12 @@
   
 .ask-ques-container h1 {
     padding: 80px 0px 20px 0px;
+    color: rgb(239, 247, 254);
 }
   
 .ask-ques-container form .ask-form-container {
     padding: 20px;
-    background-color: white;
+    background-color: #10151D;
     border-radius: 3px;
     box-shadow: 0 10px 25px rgb(0 0 0 / 5%), 0 20px 48px rgb(0 0 0 / 5%),
       0 1px 4px rgb(0 0 0 / 10%);
@@ -23,6 +24,7 @@
   
 .ask-form-container label h4 {
     margin-bottom: 0%;
+    color: rgb(239, 247, 254);
 }
   
 .ask-form-container label p {
@@ -34,7 +36,8 @@
 .ask-form-container label input,
 .ask-form-container label textarea {
     padding: 10px;
-    border: solid 1px #0000003e;
+    background-color: #000;
+    border: solid 1px #a6a6a67a;
     font-family: "Roboto", sans-serif;
     width: calc(100% - 20px);
     resize: vertical;
@@ -43,14 +46,19 @@
 .review-btn {
     margin: 50px 0px;
     padding: 10px;
-    background-color: #009dff;
-    border: solid 1px #009dff;
-    color: white;
+    /* background-color: #009dff; */
+    background-color: #24272b;
+    /* border: solid 1px #009dff; */
+    border: solid 1px #2d3645;
+    /* color: white; */
+    color: #858c94;
     border-radius: 4px;
     cursor: pointer;
     transition: 0.3s;
 }
 
 .review-btn:hover {
-    background-color: #0086d8;
+    /* background-color: #0086d8; */
+    background: linear-gradient(180deg, #326fcb 0%, #7f37ba 100%);
+    color: white;
 }
