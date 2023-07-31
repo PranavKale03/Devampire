@@ -17,6 +17,7 @@
 .ask-ques-container form .ask-form-container {
     padding: 20px;
     background-color: #10151D;
+    color: rgb(239, 247, 254);
     border-radius: 3px;
     box-shadow: 0 10px 25px rgb(0 0 0 / 5%), 0 20px 48px rgb(0 0 0 / 5%),
       0 1px 4px rgb(0 0 0 / 10%);
@@ -37,6 +38,7 @@
 .ask-form-container label textarea {
     padding: 10px;
     background-color: #000;
+    color: rgb(239, 247, 254);
     border: solid 1px #a6a6a67a;
     font-family: "Roboto", sans-serif;
     width: calc(100% - 20px);

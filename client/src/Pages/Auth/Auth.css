@@ -48,6 +48,7 @@
     /* border: solid 1px #0000003e; */
     border: solid 1px #a6a6a67a;
     font-size: 13px;
+    color: rgb(239, 247, 254);
 }
 
 .auth-container-2 form label:nth-child(1) h4,
