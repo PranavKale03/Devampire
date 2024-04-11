@@ -29,7 +29,7 @@ const UserProfile = ({ slideIn, handleSlideIn }) => {
                 {currentProfile?.name.charAt(0).toUpperCase()}
               </Avatar>
               <div className="user-name">
-                <h1>{currentProfile?.name}</h1>
+                <h1 style={{color:'#b9c3d0'}}>{currentProfile?.name}</h1>
                 <p><FontAwesomeIcon icon={faBirthdayCake} /> Joined{" "}{moment(currentProfile?.joinedOn).fromNow()}</p>
               </div>
             </div>
