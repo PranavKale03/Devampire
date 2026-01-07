@@ -53,8 +53,8 @@ export const Questions = ({ question }: { question: any }) => {
     )
 }
 
-const QuestionList = ({ questionsList }: { questionsList: any[] | null }) => {
-    if (!questionsList || questionsList.length === 0) {
+const QuestionList = ({ questionList }: { questionList: any[] | null }) => {
+    if (!questionList || questionList.length === 0) {
         return (
             <Empty className="border-none mt-12">
                 <EmptyContent>
@@ -66,7 +66,7 @@ const QuestionList = ({ questionsList }: { questionsList: any[] | null }) => {
 
     return (
         <div className='flex flex-col w-full'>
-            {questionsList.map((question) => (
+            {questionList.map((question) => (
                 <Questions question={question} key={question._id || question.id} />
             ))}
         </div>

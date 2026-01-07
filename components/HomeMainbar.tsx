@@ -18,14 +18,13 @@ const HomeMainbar = () => {
   const [isLoading, setIsLoading] = React.useState(true);
 
   const router = useRouter();
-  // const user = useSelector((state: any) => state.currentUserReducer); // TODO: Redux replacement
-  const [user, setUser] = React.useState<any>(null); // Mock user for now
+  const [user, setUser] = React.useState<any>(null);
 
   React.useEffect(() => {
     const fetchQuestions = async () => {
       try {
         const { data } = await getAllQuestions();
-        setQuestionsList({ data });
+        setQuestionsList({ data: data.questionList });
       } catch (error) {
         console.log(error);
       } finally {
@@ -35,7 +34,6 @@ const HomeMainbar = () => {
 
     fetchQuestions();
 
-    // Check user
     if (typeof window !== "undefined") {
       const profile = localStorage.getItem("Profile");
       if (profile) setUser(JSON.parse(profile));
@@ -94,7 +92,7 @@ const HomeMainbar = () => {
             <p className="text-muted-foreground mb-4">
               {questionsList.data?.length || 0} questions
             </p>
-            <QuestionList questionsList={questionsList.data} />
+            <QuestionList questionList={questionsList.data} />
           </>
         )}
       </div>

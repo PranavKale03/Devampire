@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import moment from "moment";
 import copy from "copy-to-clipboard";
-import { ChevronUp, ChevronDown, Share } from "lucide-react";
+import { ChevronUp, ChevronDown, Share, Trash } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -44,7 +44,7 @@ const QuestionDetails = () => {
     const fetchQuestions = async () => {
       try {
         const { data } = await getAllQuestions();
-        setQuestionsList({ data });
+        setQuestionsList({ data: data.questionList });
       } catch (error) {
         console.log(error);
       } finally {
@@ -78,7 +78,7 @@ const QuestionDetails = () => {
           );
           setAnswer("");
           const { data } = await getAllQuestions();
-          setQuestionsList({ data });
+          setQuestionsList({ data: data.questionList });
         } catch (error) {
           console.log(error);
         }
@@ -108,7 +108,7 @@ const QuestionDetails = () => {
       try {
         await voteQuestion(id as string, "upVote", User.result._id);
         const { data } = await getAllQuestions();
-        setQuestionsList({ data });
+        setQuestionsList({ data: data.questionList });
       } catch (error) {
         console.log(error);
       }
@@ -123,7 +123,7 @@ const QuestionDetails = () => {
       try {
         await voteQuestion(id as string, "downVote", User.result._id);
         const { data } = await getAllQuestions();
-        setQuestionsList({ data });
+        setQuestionsList({ data: data.questionList });
       } catch (error) {
         console.log(error);
       }
@@ -184,15 +184,34 @@ const QuestionDetails = () => {
                         <h1 className="text-3xl font-medium text-foreground flex-1 pr-4">
                           {question.questionTitle}
                         </h1>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={handleShare}
-                          className="flex items-center gap-2 text-muted-foreground hover:text-foreground border-border rounded-full mt-1"
-                        >
-                          <Share size={16} />
-                          <span>Share</span>
-                        </Button>
+                        <div className="flex items-center gap-4 mt-1">
+                          {User?.result?._id === question?.userId && (
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  size="icon"
+                                  onClick={handleDelete}
+                                  className="text-red-500 hover:text-red-700 hover:bg-red-50 w-8 h-8 rounded-full"
+                                >
+                                  <Trash size={16} />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>Delete Question</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          )}
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={handleShare}
+                            className="flex items-center gap-2 text-muted-foreground hover:text-foreground border-border rounded-full"
+                          >
+                            <Share size={16} />
+                            <span>Share</span>
+                          </Button>
+                        </div>
                       </div>
                       <p className="text-base leading-7 whitespace-pre-line text-foreground mb-6">
                         {question.questionBody}
@@ -263,17 +282,7 @@ const QuestionDetails = () => {
                           </p>
                         </div>
                       </div>
-                      {User?.result?._id === question?.userId && (
-                        <div className="mt-2 text-right">
-                          <button
-                            type="button"
-                            onClick={handleDelete}
-                            className="text-red-500 text-sm hover:text-red-700 transition-colors font-medium"
-                          >
-                            Delete Question
-                          </button>
-                        </div>
-                      )}
+
                     </section>
 
                     {/* Your Answer Section (Moved to Top) */}
