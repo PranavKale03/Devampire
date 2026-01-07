@@ -96,7 +96,7 @@ const Auth = () => {
                                         disabled={isLoading}
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
-                                        className="h-10 border-input bg-background"
+                                        className="h-10 border-input bg-background text-foreground"
                                     />
                                 </div>
                             )}
@@ -112,7 +112,7 @@ const Auth = () => {
                                     disabled={isLoading}
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="h-10 border-input bg-background"
+                                    className="h-10 border-input bg-background text-foreground"
                                 />
                             </div>
                             <div className="space-y-2">
@@ -134,7 +134,7 @@ const Auth = () => {
                                     disabled={isLoading}
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="h-10 border-input bg-background"
+                                    className="h-10 border-input bg-background text-foreground"
                                 />
                                 {isSignup && (
                                     <p className="text-[10px] text-muted-foreground">

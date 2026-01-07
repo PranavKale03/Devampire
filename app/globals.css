@@ -117,3 +117,17 @@
 ::selection {
   @apply bg-primary/20 text-foreground;
 }
+
+/* Force autofill to match theme */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: var(--foreground) !important;
+  -webkit-box-shadow: 0 0 0 30px var(--background) inset !important;
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+  caret-color: var(--foreground) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
