@@ -5,6 +5,7 @@ import Link from 'next/link'
 import moment from 'moment'
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Empty, EmptyContent, EmptyTitle } from "@/components/ui/empty";
 
 export const Questions = ({ question }: { question: any }) => {
     return (
@@ -52,14 +53,22 @@ export const Questions = ({ question }: { question: any }) => {
     )
 }
 
-const QuestionList = ({ questionsList }: { questionsList: any[] }) => {
+const QuestionList = ({ questionsList }: { questionsList: any[] | null }) => {
+    if (!questionsList || questionsList.length === 0) {
+        return (
+            <Empty className="border-none mt-12">
+                <EmptyContent>
+                    <EmptyTitle className="text-muted-foreground">No questions found</EmptyTitle>
+                </EmptyContent>
+            </Empty>
+        )
+    }
+
     return (
         <div className='flex flex-col w-full'>
-            {
-                questionsList?.length > 0 ? questionsList.map((question) => (
-                    <Questions question={question} key={question._id || question.id} />
-                )) : <div className="p-4 text-center text-gray-500">No questions found</div>
-            }
+            {questionsList.map((question) => (
+                <Questions question={question} key={question._id || question.id} />
+            ))}
         </div>
     )
 }
