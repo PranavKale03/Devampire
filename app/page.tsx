@@ -47,14 +47,14 @@ export default function LandingPage() {
         </motion.div>
         <motion.h1
           variants={fadeInUp}
-          className="text-5xl md:text-7xl font-bold text-foreground tracking-tight max-w-5xl"
+          className="text-4xl md:text-7xl font-bold text-foreground tracking-tight max-w-5xl"
         >
           <span className="text-foreground">Devampire</span> - The Developer
           Community
         </motion.h1>
         <motion.p
           variants={fadeInUp}
-          className="text-xl md:text-2xl text-muted-foreground max-w-2xl leading-relaxed"
+          className="text-md md:text-2xl text-muted-foreground max-w-2xl leading-relaxed"
         >
           A public platform building the definitive collection of coding
           questions & answers. Join the community to learn, share, and build

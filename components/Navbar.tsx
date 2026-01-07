@@ -42,7 +42,7 @@ const Navbar = () => {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 0.1, type: "spring", stiffness: 100, damping: 20, mass: 1 }}
-      className="fixed top-10 left-1/2 transform -translate-x-1/2 z-50 bg-background/60 backdrop-blur-md rounded-full border border-border px-4 py-3 flex items-center justify-between gap-8 w-[90%] md:w-[65%]"
+      className="fixed top-4 md:top-10 left-1/2 transform -translate-x-1/2 z-50 bg-background/60 backdrop-blur-md rounded-full border border-border px-4 py-3 flex items-center justify-between gap-8 w-[90%] md:w-[65%]"
     >
       <div className="flex items-center">
         <Link href="/" className="flex items-center">
