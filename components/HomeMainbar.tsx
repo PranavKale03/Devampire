@@ -53,9 +53,9 @@ const HomeMainbar = () => {
     <div className="flex-grow p-6 bg-background min-h-screen">
       <div className="flex justify-between items-center mb-6">
         {pathname === "/" ? (
-          <h1 className="text-3xl font-normal">Top Questions</h1>
+          <h1 className="text-xl md:text-3xl font-normal">Top Questions</h1>
         ) : (
-          <h1 className="text-3xl font-normal">All Questions</h1>
+          <h1 className="text-xl md:text-3xl font-normal">All Questions</h1>
         )}
         <Button onClick={checkAuth} className="rounded-full">
           Ask Question

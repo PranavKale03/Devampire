@@ -66,7 +66,7 @@ const DisplayAnswer = ({ question, handleShare }: DisplayAnswerProps) => {
                         </div>
                         <div className="flex justify-end items-center w-full">
                             <div className="flex items-center gap-4">
-                                <Link href={`/Users/${ans.userId}`} className='flex items-center gap-2 text-primary no-underline hover:text-primary/80'>
+                                <Link href={`/users`} className='flex items-center gap-2 text-primary no-underline hover:text-primary/80'>
                                     <Tooltip>
                                         <TooltipTrigger asChild>
                                             <Avatar className="h-8 w-8 cursor-pointer">

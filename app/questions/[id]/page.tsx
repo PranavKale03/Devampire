@@ -5,13 +5,30 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import moment from "moment";
 import copy from "copy-to-clipboard";
-import { ChevronUp, ChevronDown, Share, Trash } from "lucide-react";
+import {
+  ChevronUp,
+  ChevronDown,
+  Share,
+  Trash,
+  Loader,
+  FileQuestion,
+} from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { toast } from "sonner";
 
 import DisplayAnswer from "@/components/DisplayAnswer";
@@ -36,11 +53,14 @@ const QuestionDetails = () => {
   const [Answer, setAnswer] = useState("");
   const [User, setUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   const router = useRouter();
   const url = typeof window !== "undefined" ? window.location.href : "";
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchQuestions = async () => {
       try {
         const { data } = await getAllQuestions();
@@ -68,6 +88,7 @@ const QuestionDetails = () => {
       if (Answer === "") {
         toast.warning("Enter an answer before submitting");
       } else {
+        setIsSubmitting(true);
         try {
           await postAnswer(
             id as string,
@@ -81,6 +102,8 @@ const QuestionDetails = () => {
           setQuestionsList({ data: data.questionList });
         } catch (error) {
           console.log(error);
+        } finally {
+          setIsSubmitting(false);
         }
       }
     }
@@ -137,40 +160,58 @@ const QuestionDetails = () => {
         <main className="w-full lg:flex-1">
           {isLoading ? (
             <div className="w-full">
-              {/* Header Skeleton */}
-              {/* Header Skeleton */}
+              {/* Question Details Skeleton */}
               <div className="mb-6 pb-6 border-b border-border">
-                <Skeleton className="h-10 w-3/4 mb-4 bg-muted" />
+                {/* Title & Buttons */}
+                <div className="flex justify-between items-start mb-4">
+                  <Skeleton className="h-10 w-3/4 bg-muted" />
+                  <div className="flex items-center gap-4">
+                    <Skeleton className="h-8 w-8 rounded-full bg-muted" />{" "}
+                    {/* Delete (conditional) */}
+                    <Skeleton className="h-8 w-20 rounded-full bg-muted" />{" "}
+                    {/* Share */}
+                  </div>
+                </div>
+
+                {/* Question Body */}
                 <div className="space-y-2 mb-6">
+                  <Skeleton className="h-4 w-full bg-muted" />
                   <Skeleton className="h-4 w-full bg-muted" />
                   <Skeleton className="h-4 w-full bg-muted" />
                   <Skeleton className="h-4 w-2/3 bg-muted" />
                 </div>
+
+                {/* Tags */}
                 <div className="flex gap-2 mb-6">
                   <Skeleton className="h-6 w-16 rounded bg-muted" />
-                  <Skeleton className="h-6 w-16 rounded bg-muted" />
-                  <Skeleton className="h-6 w-16 rounded bg-muted" />
+                  <Skeleton className="h-6 w-12 rounded bg-muted" />
+                  <Skeleton className="h-6 w-20 rounded bg-muted" />
                 </div>
+
+                {/* Votes & Author Info */}
                 <div className="flex justify-between items-center pt-4">
-                  <div className="flex gap-4">
+                  {/* Votes */}
+                  <div className="flex gap-2">
                     <Skeleton className="h-10 w-24 rounded bg-muted" />
                     <Skeleton className="h-10 w-24 rounded bg-muted" />
                   </div>
+
+                  {/* Author & Date */}
                   <div className="flex items-center gap-4">
-                    <Skeleton className="h-8 w-20 rounded bg-muted" />
-                    <Skeleton className="h-3 w-24 bg-muted" />
-                    <div className="flex items-center gap-2">
-                      <Skeleton className="h-4 w-20 bg-muted" />
-                      <Skeleton className="h-8 w-8 rounded-full bg-muted" />
+                    <Skeleton className="h-8 w-8 rounded-full bg-muted" />
+                    <div className="flex flex-col gap-1 items-end">
+                      <Skeleton className="h-4 w-24 bg-muted" />
+                      <Skeleton className="h-3 w-16 bg-muted" />
                     </div>
                   </div>
                 </div>
               </div>
-              {/* Answer Form Skeleton */}
+
+              {/* Your Answer Section Skeleton */}
               <div className="mb-8">
                 <Skeleton className="h-6 w-32 mb-4 bg-muted" />
-                <Skeleton className="h-40 w-full rounded-lg bg-muted mb-4" />
-                <Skeleton className="h-10 w-36 rounded-md bg-muted" />
+                <Skeleton className="h-[160px] w-full rounded-lg bg-muted mb-4" />
+                <Skeleton className="h-10 w-36 rounded-full bg-muted" />
               </div>
             </div>
           ) : (
@@ -181,26 +222,52 @@ const QuestionDetails = () => {
                   <div key={question._id}>
                     <section className="mb-6 pb-6 border-b border-border">
                       <div className="flex justify-between items-start mb-4">
-                        <h1 className="text-3xl font-medium text-foreground flex-1 pr-4">
+                        <h1 className="text-xl md:text-3xl font-medium text-foreground flex-1 pr-4">
                           {question.questionTitle}
                         </h1>
                         <div className="flex items-center gap-4 mt-1">
-                          {User?.result?._id === question?.userId && (
-                            <Tooltip>
-                              <TooltipTrigger asChild>
+                          {User?.result?._id === question?.userId?._id && (
+                            <Dialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
+                              <DialogTrigger asChild>
                                 <Button
                                   variant="outline"
                                   size="icon"
-                                  onClick={handleDelete}
                                   className="text-red-500 hover:text-red-700 hover:bg-red-50 w-8 h-8 rounded-full"
                                 >
                                   <Trash size={16} />
                                 </Button>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p>Delete Question</p>
-                              </TooltipContent>
-                            </Tooltip>
+                              </DialogTrigger>
+                              <DialogContent className="sm:max-w-[425px] p-8 gap-6 pt-12">
+                                <DialogHeader className="flex flex-col items-center gap-2">
+                                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-red-100 mb-2">
+                                    <Trash className="h-8 w-8 text-red-600" />
+                                  </div>
+                                  <DialogTitle className="text-xl text-center">Delete Question</DialogTitle>
+                                  <DialogDescription className="text-center text-base">
+                                    Are you sure you want to delete this question? This action cannot be undone.
+                                  </DialogDescription>
+                                </DialogHeader>
+                                <DialogFooter className="flex flex-row justify-center sm:justify-center gap-3 w-full">
+                                  <Button
+                                    variant="outline"
+                                    onClick={() => setIsDeleteOpen(false)}
+                                    className="flex-1 h-11 rounded-full text-base"
+                                  >
+                                    Cancel
+                                  </Button>
+                                  <Button
+                                    variant="destructive"
+                                    onClick={() => {
+                                      handleDelete();
+                                      setIsDeleteOpen(false);
+                                    }}
+                                    className="flex-1 h-11 rounded-full text-base bg-red-600 hover:bg-red-700"
+                                  >
+                                    Delete
+                                  </Button>
+                                </DialogFooter>
+                              </DialogContent>
+                            </Dialog>
                           )}
                           <Button
                             variant="outline"
@@ -235,7 +302,7 @@ const QuestionDetails = () => {
                           <Button
                             variant="ghost"
                             onClick={handleUpVote}
-                            className="flex items-center gap-1 text-muted-foreground hover:text-foreground hover:bg-accent"
+                            className="flex items-center gap-1 text-muted-foreground hover:text-foreground hover:bg-accent rounded-full"
                           >
                             <ChevronUp size={20} />
                             <span>Upvote</span>
@@ -246,7 +313,7 @@ const QuestionDetails = () => {
                           <Button
                             variant="ghost"
                             onClick={handleDownVote}
-                            className="flex items-center gap-1 text-muted-foreground hover:text-foreground hover:bg-accent"
+                            className="flex items-center gap-1 text-muted-foreground hover:text-foreground hover:bg-accent rounded-full"
                           >
                             <ChevronDown size={20} />
                             <span>Downvote</span>
@@ -257,7 +324,7 @@ const QuestionDetails = () => {
                         </div>
                         <div className="flex items-center gap-4">
                           <Link
-                            href={`/Users/${question.userId}`}
+                            href={`/users`}
                             className="flex items-center gap-2 text-primary no-underline hover:text-primary/80"
                           >
                             <Tooltip>
@@ -266,23 +333,22 @@ const QuestionDetails = () => {
                                   <AvatarImage src="" />{" "}
                                   {/* Add user image URL if available */}
                                   <AvatarFallback className="bg-primary text-primary-foreground">
-                                    {question.userPosted
+                                    {question?.userId?.name
                                       .charAt(0)
                                       .toUpperCase()}
                                   </AvatarFallback>
                                 </Avatar>
                               </TooltipTrigger>
                               <TooltipContent>
-                                <p>{question.userPosted}</p>
+                                <p>{question?.userId?.name}</p>
                               </TooltipContent>
                             </Tooltip>
                           </Link>
                           <p className="text-xs text-gray-500">
-                            asked {moment(question.askedOn).fromNow()}
+                            asked {moment(question?.askedOn).fromNow()}
                           </p>
                         </div>
                       </div>
-
                     </section>
 
                     {/* Your Answer Section (Moved to Top) */}
@@ -301,8 +367,19 @@ const QuestionDetails = () => {
                           value={Answer}
                           placeholder="Write your answer..."
                         ></textarea>
-                        <Button type="submit" className="rounded-full">
-                          Post Your Answer
+                        <Button
+                          type="submit"
+                          className="rounded-full"
+                          disabled={isSubmitting}
+                        >
+                          {isSubmitting ? (
+                            <>
+                              <Loader className="mr-2 h-4 w-4 animate-spin" />
+                              Posting...
+                            </>
+                          ) : (
+                            "Post Your Answer"
+                          )}
                         </Button>
                       </form>
                     </section>
@@ -394,9 +471,19 @@ const QuestionDetails = () => {
                   ))}
                 {questionsList.data?.filter((q) => q._id !== id).length ===
                   0 && (
-                    <p className="text-sm text-gray-500">
-                      No related questions found.
-                    </p>
+                    <Card className="border-border bg-card">
+                      <CardContent className="flex flex-col items-center justify-center p-6 text-center">
+                        <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-3">
+                          <FileQuestion className="h-6 w-6 text-muted-foreground" />
+                        </div>
+                        <h3 className="text-sm font-medium text-foreground mb-1">
+                          No related questions found
+                        </h3>
+                        <p className="text-xs text-muted-foreground">
+                          There are no other questions similar to this one yet.
+                        </p>
+                      </CardContent>
+                    </Card>
                   )}
               </>
             )}

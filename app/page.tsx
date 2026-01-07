@@ -66,7 +66,7 @@ export default function LandingPage() {
               Join Community
             </Button>
           </Link>
-          <Link href="/home">
+          <Link href="/dashboard">
             <Button
               variant="outline"
               className="h-12 px-8 text-base border-input bg-background hover:bg-accent hover:text-accent-foreground text-foreground rounded-full"
