@@ -104,8 +104,16 @@ export default function LandingPage() {
           >
             {/* Large Card */}
             <motion.div
-              variants={fadeInUp}
-              className="md:col-span-2 md:row-span-2 bg-[#fdf7e2] dark:bg-card border border-transparent dark:border-border dark:hover:border-foreground/50 rounded-3xl p-10 flex flex-col justify-between hover:scale-[1.01] transition-all duration-300"
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.5, ease: "easeOut" }
+                }
+              }}
+              whileHover={{ scale: 1.01 }}
+              className="md:col-span-2 md:row-span-2 bg-[#fdf7e2] dark:bg-card border border-transparent dark:border-border dark:hover:border-foreground/50 rounded-3xl p-10 flex flex-col justify-between transition-colors duration-300"
             >
               <div>
                 <div className="bg-primary dark:bg-primary/10 w-14 h-14 rounded-2xl flex items-center justify-center mb-6 text-primary-foreground dark:text-primary">
@@ -129,8 +137,16 @@ export default function LandingPage() {
 
             {/* Tall Card */}
             <motion.div
-              variants={fadeInUp}
-              className="bg-[#e7f8fe] dark:bg-card border border-transparent dark:border-border dark:hover:border-foreground/50 rounded-3xl p-8 flex flex-col justify-start hover:scale-[1.01] transition-all duration-300"
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.5, ease: "easeOut" }
+                }
+              }}
+              whileHover={{ scale: 1.01 }}
+              className="bg-[#e7f8fe] dark:bg-card border border-transparent dark:border-border dark:hover:border-foreground/50 rounded-3xl p-8 flex flex-col justify-start transition-colors duration-300"
             >
               <div className="bg-[#009dff] dark:bg-blue-500/10 w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-white dark:text-blue-500">
                 <Users size={24} />
@@ -145,8 +161,16 @@ export default function LandingPage() {
 
             {/* Wide Card */}
             <motion.div
-              variants={fadeInUp}
-              className="bg-[#2d2d2d] dark:bg-card border border-transparent dark:border-border dark:hover:border-foreground/50 rounded-3xl p-8 flex flex-col justify-start text-white hover:scale-[1.01] transition-all duration-300"
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.5, ease: "easeOut" }
+                }
+              }}
+              whileHover={{ scale: 1.01 }}
+              className="bg-[#2d2d2d] dark:bg-card border border-transparent dark:border-border dark:hover:border-foreground/50 rounded-3xl p-8 flex flex-col justify-start text-white transition-colors duration-300"
             >
               <div className="bg-gray-700 dark:bg-muted w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-white dark:text-foreground">
                 <Rocket size={24} />
