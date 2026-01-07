@@ -12,6 +12,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { toast } from "sonner";
 
 import DisplayAnswer from "@/components/DisplayAnswer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -61,11 +62,11 @@ const QuestionDetails = () => {
   const handlePostAns = async (e: React.FormEvent, answerLength: number) => {
     e.preventDefault();
     if (User === null) {
-      alert("Login or Signup to answer a question");
+      toast.warning("Please login or signup to answer a question");
       router.push("/auth");
     } else {
       if (Answer === "") {
-        alert("Enter an answer before submitting");
+        toast.warning("Enter an answer before submitting");
       } else {
         try {
           await postAnswer(
@@ -87,7 +88,7 @@ const QuestionDetails = () => {
 
   const handleShare = () => {
     copy(url);
-    alert("Copied url : " + url);
+    toast.success("Copied url : " + url);
   };
 
   const handleDelete = async () => {
@@ -101,7 +102,7 @@ const QuestionDetails = () => {
 
   const handleUpVote = async () => {
     if (User === null) {
-      alert("Login or Signup to up vote a question");
+      toast.warning("Please login or signup to up vote a question");
       router.push("/auth");
     } else {
       try {
@@ -116,7 +117,7 @@ const QuestionDetails = () => {
 
   const handleDownVote = async () => {
     if (User === null) {
-      alert("Login or Signup to down vote a question");
+      toast.warning("Please login or signup to down vote a question");
       router.push("/auth");
     } else {
       try {

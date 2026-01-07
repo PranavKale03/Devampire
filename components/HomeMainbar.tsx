@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { getAllQuestions } from '../lib/api';
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { toast } from "sonner";
 
 const HomeMainbar = () => {
     const pathname = usePathname();
@@ -42,7 +43,7 @@ const HomeMainbar = () => {
 
     const checkAuth = () => {
         if (user === null) {
-            alert('Login or signup to ask a question')
+            toast.warning('Please login or signup to ask a question')
             router.push('/auth')
         } else {
             router.push('/ask-question')

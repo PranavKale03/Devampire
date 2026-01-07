@@ -33,7 +33,7 @@ const staggerContainer: Variants = {
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-background font-sans selection:bg-[#ef8236] selection:text-white">
+    <div className="flex flex-col min-h-screen bg-background font-sans">
       {/* Hero Section - Full Viewport */}
       <motion.section
         initial="hidden"
@@ -104,8 +104,16 @@ export default function LandingPage() {
           >
             {/* Large Card */}
             <motion.div
-              variants={fadeInUp}
-              className="md:col-span-2 md:row-span-2 bg-[#fdf7e2] dark:bg-card border border-transparent dark:border-border dark:hover:border-foreground/50 rounded-3xl p-10 flex flex-col justify-between hover:scale-[1.01] transition-all duration-300"
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.5, ease: "easeOut" }
+                }
+              }}
+              whileHover={{ scale: 1.01 }}
+              className="md:col-span-2 md:row-span-2 bg-[#fdf7e2] dark:bg-card border border-transparent dark:border-border dark:hover:border-foreground/50 rounded-3xl p-10 flex flex-col justify-between transition-colors duration-300"
             >
               <div>
                 <div className="bg-primary dark:bg-primary/10 w-14 h-14 rounded-2xl flex items-center justify-center mb-6 text-primary-foreground dark:text-primary">
@@ -129,8 +137,16 @@ export default function LandingPage() {
 
             {/* Tall Card */}
             <motion.div
-              variants={fadeInUp}
-              className="bg-[#e7f8fe] dark:bg-card border border-transparent dark:border-border dark:hover:border-foreground/50 rounded-3xl p-8 flex flex-col justify-start hover:scale-[1.01] transition-all duration-300"
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.5, ease: "easeOut" }
+                }
+              }}
+              whileHover={{ scale: 1.01 }}
+              className="bg-[#e7f8fe] dark:bg-card border border-transparent dark:border-border dark:hover:border-foreground/50 rounded-3xl p-8 flex flex-col justify-start transition-colors duration-300"
             >
               <div className="bg-[#009dff] dark:bg-blue-500/10 w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-white dark:text-blue-500">
                 <Users size={24} />
@@ -145,8 +161,16 @@ export default function LandingPage() {
 
             {/* Wide Card */}
             <motion.div
-              variants={fadeInUp}
-              className="bg-[#2d2d2d] dark:bg-card border border-transparent dark:border-border dark:hover:border-foreground/50 rounded-3xl p-8 flex flex-col justify-start text-white hover:scale-[1.01] transition-all duration-300"
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.5, ease: "easeOut" }
+                }
+              }}
+              whileHover={{ scale: 1.01 }}
+              className="bg-[#2d2d2d] dark:bg-card border border-transparent dark:border-border dark:hover:border-foreground/50 rounded-3xl p-8 flex flex-col justify-start text-white transition-colors duration-300"
             >
               <div className="bg-gray-700 dark:bg-muted w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-white dark:text-foreground">
                 <Rocket size={24} />
@@ -232,8 +256,15 @@ export default function LandingPage() {
             ].map((feature, i) => (
               <motion.div
                 key={i}
-                variants={fadeInUp}
-                className="bg-card p-8 rounded-2xl border border-border hover:border-foreground/50 transition-all duration-300 group"
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.5, ease: "easeOut" }
+                  }
+                }}
+                className="bg-card p-8 rounded-2xl border border-border hover:border-foreground/50 transition-colors duration-300 group"
               >
                 <div
                   className={`${feature.bg} w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}
@@ -257,10 +288,10 @@ export default function LandingPage() {
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeInUp}
-          className="max-w-[95%] md:w-[70%] mx-auto bg-[#0f0f0f] dark:bg-white rounded-full md:rounded-full py-8 md:py-24 px-6 flex flex-col items-center justify-center gap-6 text-center overflow-hidden transition-colors duration-300"
+          className="md:w-[70%] mx-auto bg-[#0f0f0f] dark:bg-white rounded-full md:rounded-full py-8 md:py-24 px-6 flex flex-col items-center justify-center gap-8 md:gap-10 text-center overflow-hidden transition-colors duration-300 selection:bg-white/30 selection:text-white dark:selection:bg-black/10 dark:selection:text-black"
         >
           {/* Pill Label */}
-          <div className="bg-white/20 dark:bg-black/10 px-6 py-1 rounded-full">
+          <div className="bg-white/10 dark:bg-black/10 px-6 py-1 rounded-full">
             <span className="text-sm font-semibold text-white dark:text-black tracking-wide">
               Grow together
             </span>
@@ -273,7 +304,7 @@ export default function LandingPage() {
 
           {/* Button */}
           <Link href="/auth">
-            <Button className="h-14 md:h-16 px-8 md:px-10 rounded-full bg-white text-black hover:bg-gray-200 dark:bg-black dark:text-white dark:hover:bg-gray-800 text-md md:text-lg transition-all hover:scale-105 font-bold cursor-pointer">
+            <Button className="h-12 md:h-14 px-8 md:px-10 rounded-full bg-white text-black hover:bg-gray-200 dark:bg-black dark:text-white dark:hover:bg-black/80 text-md md:text-lg transition-all hover:scale-105 font-bold cursor-pointer">
               Join Community
             </Button>
           </Link>

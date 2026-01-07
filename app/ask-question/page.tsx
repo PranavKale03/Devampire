@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { postQuestion } from '../../lib/api';
+import { toast } from 'sonner';
 
 const AskQuestion = () => {
     const [questionTitle, setQuestionTitle] = useState("");
@@ -22,7 +23,7 @@ const AskQuestion = () => {
         //   } else alert("Please enter all the fields");
         // } else alert("Login to ask question");
         console.log({ questionTitle, questionBody, questionTags });
-        alert("Question posted (simulated)");
+        toast.success("Question posted successfully (simulated)");
         router.push('/');
     };
 
