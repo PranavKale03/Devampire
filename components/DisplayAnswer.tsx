@@ -21,7 +21,6 @@ interface DisplayAnswerProps {
 }
 
 const DisplayAnswer = ({ question, handleShare }: DisplayAnswerProps) => {
-    console.log(question);
     // Mock user for now
     const User = { result: { _id: '1', name: 'TestUser' } }; // Replace with actual auth
     // const { id } = useParams(); // Passed in question object usually, or we use question._id

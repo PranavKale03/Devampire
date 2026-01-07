@@ -19,6 +19,16 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { toast } from "sonner";
 
 import DisplayAnswer from "@/components/DisplayAnswer";
@@ -44,6 +54,7 @@ const QuestionDetails = () => {
   const [User, setUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   const router = useRouter();
   const url = typeof window !== "undefined" ? window.location.href : "";
@@ -53,7 +64,6 @@ const QuestionDetails = () => {
     const fetchQuestions = async () => {
       try {
         const { data } = await getAllQuestions();
-        console.log(data);
         setQuestionsList({ data: data.questionList });
       } catch (error) {
         console.log(error);
@@ -143,9 +153,6 @@ const QuestionDetails = () => {
     }
   };
 
-  console.log(questionsList);
-  console.log(User);
-
   return (
     <div className="flex justify-center w-full min-h-screen bg-background max-w-7xl mx-auto px-6 md:px-12 py-12 pt-20">
       <div className="flex w-full">
@@ -220,21 +227,47 @@ const QuestionDetails = () => {
                         </h1>
                         <div className="flex items-center gap-4 mt-1">
                           {User?.result?._id === question?.userId?._id && (
-                            <Tooltip>
-                              <TooltipTrigger asChild>
+                            <Dialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
+                              <DialogTrigger asChild>
                                 <Button
                                   variant="outline"
                                   size="icon"
-                                  onClick={handleDelete}
                                   className="text-red-500 hover:text-red-700 hover:bg-red-50 w-8 h-8 rounded-full"
                                 >
                                   <Trash size={16} />
                                 </Button>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p>Delete Question</p>
-                              </TooltipContent>
-                            </Tooltip>
+                              </DialogTrigger>
+                              <DialogContent className="sm:max-w-[425px] p-8 gap-6 pt-12">
+                                <DialogHeader className="flex flex-col items-center gap-2">
+                                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-red-100 mb-2">
+                                    <Trash className="h-8 w-8 text-red-600" />
+                                  </div>
+                                  <DialogTitle className="text-xl text-center">Delete Question</DialogTitle>
+                                  <DialogDescription className="text-center text-base">
+                                    Are you sure you want to delete this question? This action cannot be undone.
+                                  </DialogDescription>
+                                </DialogHeader>
+                                <DialogFooter className="flex flex-row justify-center sm:justify-center gap-3 w-full">
+                                  <Button
+                                    variant="outline"
+                                    onClick={() => setIsDeleteOpen(false)}
+                                    className="flex-1 h-11 rounded-full text-base"
+                                  >
+                                    Cancel
+                                  </Button>
+                                  <Button
+                                    variant="destructive"
+                                    onClick={() => {
+                                      handleDelete();
+                                      setIsDeleteOpen(false);
+                                    }}
+                                    className="flex-1 h-11 rounded-full text-base bg-red-600 hover:bg-red-700"
+                                  >
+                                    Delete
+                                  </Button>
+                                </DialogFooter>
+                              </DialogContent>
+                            </Dialog>
                           )}
                           <Button
                             variant="outline"
@@ -438,20 +471,20 @@ const QuestionDetails = () => {
                   ))}
                 {questionsList.data?.filter((q) => q._id !== id).length ===
                   0 && (
-                  <Card className="border-border bg-card">
-                    <CardContent className="flex flex-col items-center justify-center p-6 text-center">
-                      <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-3">
-                        <FileQuestion className="h-6 w-6 text-muted-foreground" />
-                      </div>
-                      <h3 className="text-sm font-medium text-foreground mb-1">
-                        No related questions found
-                      </h3>
-                      <p className="text-xs text-muted-foreground">
-                        There are no other questions similar to this one yet.
-                      </p>
-                    </CardContent>
-                  </Card>
-                )}
+                    <Card className="border-border bg-card">
+                      <CardContent className="flex flex-col items-center justify-center p-6 text-center">
+                        <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-3">
+                          <FileQuestion className="h-6 w-6 text-muted-foreground" />
+                        </div>
+                        <h3 className="text-sm font-medium text-foreground mb-1">
+                          No related questions found
+                        </h3>
+                        <p className="text-xs text-muted-foreground">
+                          There are no other questions similar to this one yet.
+                        </p>
+                      </CardContent>
+                    </Card>
+                  )}
               </>
             )}
           </div>
