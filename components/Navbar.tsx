@@ -73,7 +73,7 @@ const Navbar = () => {
 
       <div className="flex items-center gap-4">
         <Button
-          variant="ghost"
+          variant="outline"
           size="icon"
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           className="rounded-full"
@@ -99,7 +99,7 @@ const Navbar = () => {
               cursor="pointer"
             >
               <Link
-                href={`/Users/${User?.result?._id}`}
+                href={`/users/${User?.result?._id}`}
                 style={{ color: "white", textDecoration: "none" }}
               >
                 {User.result.name.charAt(0).toUpperCase()}
