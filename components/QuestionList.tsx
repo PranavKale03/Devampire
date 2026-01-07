@@ -1,0 +1,67 @@
+'use client';
+
+import React from 'react'
+import Link from 'next/link'
+import moment from 'moment'
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+
+export const Questions = ({ question }: { question: any }) => {
+    return (
+        <Card className="w-full mb-4 hover:shadow-md transition-all border-gray-200 bg-white p-0">
+            <CardContent className="flex p-4">
+                <div className="hidden sm:flex gap-4 text-center mr-8 text-sm text-gray-600 shrink-0 self-start mt-1">
+                    <div className="flex flex-col items-center min-w-[40px]">
+                        <p className="font-medium text-black text-lg">{question?.upVote?.length - question?.downVote?.length || 0}</p>
+                        <p className="text-xs">votes</p>
+                    </div>
+                    <div className="flex flex-col items-center min-w-[40px]">
+                        <p className="font-medium text-black text-lg">{question?.noOfAnswers || 0}</p>
+                        <p className="text-xs">answers</p>
+                    </div>
+                </div>
+                <div className="flex-grow">
+                    <Link href={`/questions/${question?._id}`} className='text-[#007ac6] hover:text-[#005991] text-lg block line-clamp-2'>
+                        {question?.questionTitle}
+                    </Link>
+                    <div className="flex justify-between sm:items-center items-start sm:flex-row flex-col sm:gap-0 gap-2">
+                        <div className="flex gap-2 flex-wrap mt-2">
+                            {
+                                question?.questionTags?.flatMap((tag: string) => tag.split(" "))
+                                    .filter((tag: string) => tag.trim() !== "")
+                                    .map((tag: string, index: number) => (
+                                        <Badge key={index} variant="secondary" className="font-normal rounded-md px-2 py-1">
+                                            {tag}
+                                        </Badge>
+                                    ))
+                            }
+                        </div>
+                        <p className="text-xs text-gray-500 self-end sm:self-auto">
+                            asked {moment(question?.askedOn).fromNow()} <span className="text-[#007ac6] font-medium">{question?.userPosted}</span>
+                        </p>
+                    </div>
+                    {/* Mobile Stats */}
+                    <div className="flex sm:hidden items-center gap-2 mt-3 text-xs text-slate-500 font-medium">
+                        <p>{question?.upVote?.length - question?.downVote?.length || 0} votes</p>
+                        <span>|</span>
+                        <p>{question?.noOfAnswers || 0} answers</p>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
+    )
+}
+
+const QuestionList = ({ questionsList }: { questionsList: any[] }) => {
+    return (
+        <div className='flex flex-col w-full'>
+            {
+                questionsList?.length > 0 ? questionsList.map((question) => (
+                    <Questions question={question} key={question._id || question.id} />
+                )) : <div className="p-4 text-center text-gray-500">No questions found</div>
+            }
+        </div>
+    )
+}
+
+export default QuestionList;
