@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -16,6 +16,7 @@ const Navbar = () => {
   // Mock user for UI development if Redux not ready
   const [User, setUser] = useState<any>(null);
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogout = () => {
     router.push("/");
@@ -31,6 +32,8 @@ const Navbar = () => {
       if (profile) setUser(JSON.parse(profile));
     }
   }, []);
+
+  if (pathname === '/auth') return null;
 
   return (
     <motion.nav
