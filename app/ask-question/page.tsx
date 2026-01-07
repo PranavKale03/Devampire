@@ -47,7 +47,7 @@ const AskQuestion = () => {
                 if (questionTitle && questionBody && questionTags) {
                     await postQuestion({ questionTitle, questionBody, questionTags, userPosted: user.result.name, userId: user?.result._id });
                     toast.success("Question posted successfully");
-                    router.push('/home');
+                    router.push('/dashboard');
                 } else {
                     toast.warning("Please enter all the fields");
                     setIsLoading(false); // Stop loading if validation fails

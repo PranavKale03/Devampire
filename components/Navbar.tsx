@@ -20,7 +20,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogOut, User as UserIcon } from "lucide-react";
+import { LogOut, User as UserIcon, LayoutDashboard } from "lucide-react";
 
 const Navbar = () => {
   // Mock user for UI development if Redux not ready
@@ -82,7 +82,7 @@ const Navbar = () => {
 
       <div className="hidden md:flex items-center gap-6 absolute left-1/2 transform -translate-x-1/2">
         <Link
-          href="/home"
+          href="/dashboard"
           className="text-muted-foreground hover:text-foreground font-medium text-sm transition-colors"
         >
           Dashboard
@@ -141,15 +141,21 @@ const Navbar = () => {
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <Link href={`/users/${User?.result?._id}`} className="w-full">
+                <Link href="/dashboard" className="w-full md:hidden">
                   <DropdownMenuItem className="cursor-pointer">
-                    <UserIcon className="mr-2 h-4 w-4" />
+                    <LayoutDashboard className="h-4 w-4 mr-2" />
+                    <span>Dashboard</span>
+                  </DropdownMenuItem>
+                </Link>
+                <Link href={`/users`} className="w-full">
+                  <DropdownMenuItem className="cursor-pointer">
+                    <UserIcon className="h-4 w-4" />
                     <span>Profile</span>
                   </DropdownMenuItem>
                 </Link>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-destructive focus:text-destructive">
-                  <LogOut className="mr-2 h-4 w-4" />
+                  <LogOut className="h-4 w-4 text-destructive" />
                   <span>Log out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>

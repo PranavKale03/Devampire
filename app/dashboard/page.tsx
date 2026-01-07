@@ -18,7 +18,7 @@ const staggerContainer: Variants = {
     },
 };
 
-export default function Home() {
+export default function Dashboard() {
     return (
         <div className="w-full min-h-screen bg-background">
 

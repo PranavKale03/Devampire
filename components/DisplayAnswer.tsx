@@ -21,6 +21,7 @@ interface DisplayAnswerProps {
 }
 
 const DisplayAnswer = ({ question, handleShare }: DisplayAnswerProps) => {
+    console.log(question);
     // Mock user for now
     const User = { result: { _id: '1', name: 'TestUser' } }; // Replace with actual auth
     // const { id } = useParams(); // Passed in question object usually, or we use question._id
@@ -66,7 +67,7 @@ const DisplayAnswer = ({ question, handleShare }: DisplayAnswerProps) => {
                         </div>
                         <div className="flex justify-end items-center w-full">
                             <div className="flex items-center gap-4">
-                                <Link href={`/Users/${ans.userId}`} className='flex items-center gap-2 text-primary no-underline hover:text-primary/80'>
+                                <Link href={`/users`} className='flex items-center gap-2 text-primary no-underline hover:text-primary/80'>
                                     <Tooltip>
                                         <TooltipTrigger asChild>
                                             <Avatar className="h-8 w-8 cursor-pointer">

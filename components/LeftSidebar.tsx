@@ -17,8 +17,8 @@ const LeftSidebar = () => {
     return (
         <div className='w-[164px] shadow-sm hidden md:block z-10 sticky top-[50px] bg-white h-[calc(100vh-50px)] overflow-y-auto custom-scrollbar transition-all duration-300'>
             <nav className='pt-12'>
-                <Link href='/home' className={`block pl-2 py-2 text-gray-600 hover:text-black hover:bg-gray-100 ${isActive('/home') ? 'bg-gray-100 font-bold border-r-4 border-[#ef8236]' : ''}`}>
-                    <p className="ml-2">Home</p>
+                <Link href='/dashboard' className={`block pl-2 py-2 text-gray-600 hover:text-black hover:bg-gray-100 ${isActive('/dashboard') ? 'bg-gray-100 font-bold border-r-4 border-[#ef8236]' : ''}`}>
+                    <p className="ml-2">Dashboard</p>
                 </Link>
                 <div className='pt-5'>
                     <div className="pl-2 mb-2"><p className="text-gray-500 font-medium text-xs">PUBLIC</p></div>
