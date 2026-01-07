@@ -33,7 +33,7 @@ const staggerContainer: Variants = {
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-background font-sans selection:bg-[#ef8236] selection:text-white">
+    <div className="flex flex-col min-h-screen bg-background font-sans">
       {/* Hero Section - Full Viewport */}
       <motion.section
         initial="hidden"
@@ -264,7 +264,7 @@ export default function LandingPage() {
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeInUp}
-          className="md:w-[70%] mx-auto bg-[#0f0f0f] dark:bg-white rounded-full md:rounded-full py-8 md:py-24 px-6 flex flex-col items-center justify-center gap-6 text-center overflow-hidden transition-colors duration-300"
+          className="md:w-[70%] mx-auto bg-[#0f0f0f] dark:bg-white rounded-full md:rounded-full py-8 md:py-24 px-6 flex flex-col items-center justify-center gap-6 text-center overflow-hidden transition-colors duration-300 selection:bg-white/30 selection:text-white dark:selection:bg-black/10 dark:selection:text-black"
         >
           {/* Pill Label */}
           <div className="bg-white/20 dark:bg-black/10 px-6 py-1 rounded-full">
