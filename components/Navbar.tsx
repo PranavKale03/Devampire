@@ -8,10 +8,19 @@ import { useDispatch, useSelector } from "react-redux";
 
 import logo from "../public/assets/Stack-Logo.png";
 import { Search, Sun, Moon } from "lucide-react";
-import Avatar from "./Avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { LogOut, User as UserIcon } from "lucide-react";
 
 const Navbar = () => {
   // Mock user for UI development if Redux not ready
@@ -28,11 +37,32 @@ const Navbar = () => {
     }
   };
 
-  useEffect(() => {
+  const handleProfileUpdate = () => {
     if (typeof window !== "undefined") {
       const profile = localStorage.getItem("Profile");
-      if (profile) setUser(JSON.parse(profile));
+      if (profile) {
+        setUser(JSON.parse(profile));
+      } else {
+        setUser(null);
+      }
     }
+  };
+
+  useEffect(() => {
+    handleProfileUpdate();
+
+    if (typeof window !== "undefined") {
+      window.addEventListener('profile-updated', handleProfileUpdate);
+      // Also listen for storage events (for multi-tab support)
+      window.addEventListener('storage', handleProfileUpdate);
+    }
+
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener('profile-updated', handleProfileUpdate);
+        window.removeEventListener('storage', handleProfileUpdate);
+      }
+    };
   }, []);
 
   if (pathname === '/auth') return null;
@@ -90,28 +120,40 @@ const Navbar = () => {
           </Link>
         ) : (
           <>
-            <Avatar
-              backgroundColor="#009dff"
-              px="10px"
-              py="5px"
-              borderRadius="50%"
-              color="white"
-              cursor="pointer"
-            >
-              <Link
-                href={`/users/${User?.result?._id}`}
-                style={{ color: "white", textDecoration: "none" }}
-              >
-                {User.result.name.charAt(0).toUpperCase()}
-              </Link>
-            </Avatar>
-            <Button
-              variant="outline"
-              className="ml-3 rounded-full h-9 px-4 text-sm"
-              onClick={handleLogout}
-            >
-              Log out
-            </Button>
+            <DropdownMenu modal={false}>
+              <DropdownMenuTrigger asChild>
+                <div role="button" tabIndex={0} className="cursor-pointer">
+                  <Avatar>
+                    <AvatarImage src={User?.result?.picture} alt={User?.result?.name} />
+                    <AvatarFallback className="bg-primary text-primary-foreground font-medium">
+                      {User?.result?.name?.charAt(0).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">{User?.result?.name}</p>
+                    <p className="text-xs leading-none text-muted-foreground">
+                      {User?.result?.email}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <Link href={`/users/${User?.result?._id}`} className="w-full">
+                  <DropdownMenuItem className="cursor-pointer">
+                    <UserIcon className="mr-2 h-4 w-4" />
+                    <span>Profile</span>
+                  </DropdownMenuItem>
+                </Link>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-destructive focus:text-destructive">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </>
         )}
       </div>
