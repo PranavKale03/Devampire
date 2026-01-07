@@ -232,8 +232,15 @@ export default function LandingPage() {
             ].map((feature, i) => (
               <motion.div
                 key={i}
-                variants={fadeInUp}
-                className="bg-card p-8 rounded-2xl border border-border hover:border-foreground/50 transition-all duration-300 group"
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.5, ease: "easeOut" }
+                  }
+                }}
+                className="bg-card p-8 rounded-2xl border border-border hover:border-foreground/50 transition-colors duration-300 group"
               >
                 <div
                   className={`${feature.bg} w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}
@@ -257,7 +264,7 @@ export default function LandingPage() {
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeInUp}
-          className="max-w-[95%] md:w-[70%] mx-auto bg-[#0f0f0f] dark:bg-white rounded-full md:rounded-full py-8 md:py-24 px-6 flex flex-col items-center justify-center gap-6 text-center overflow-hidden transition-colors duration-300"
+          className="md:w-[70%] mx-auto bg-[#0f0f0f] dark:bg-white rounded-full md:rounded-full py-8 md:py-24 px-6 flex flex-col items-center justify-center gap-6 text-center overflow-hidden transition-colors duration-300"
         >
           {/* Pill Label */}
           <div className="bg-white/20 dark:bg-black/10 px-6 py-1 rounded-full">
@@ -273,7 +280,7 @@ export default function LandingPage() {
 
           {/* Button */}
           <Link href="/auth">
-            <Button className="h-14 md:h-16 px-8 md:px-10 rounded-full bg-white text-black hover:bg-gray-200 dark:bg-black dark:text-white dark:hover:bg-gray-800 text-md md:text-lg transition-all hover:scale-105 font-bold cursor-pointer">
+            <Button className="h-12 md:h-14 px-8 md:px-10 rounded-full bg-white text-black hover:bg-gray-200 dark:bg-black dark:text-white dark:hover:bg-black/80 text-md md:text-lg transition-all hover:scale-105 font-bold cursor-pointer">
               Join Community
             </Button>
           </Link>
