@@ -3,8 +3,16 @@
 import React from 'react'
 import moment from "moment";
 import Link from 'next/link';
-import Avatar from './Avatar';
-import { deleteAnswer } from '../lib/api'; // We might need to implement this in the page or pass handler
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider, // Ensure provider is available or used in paremt
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Share, Trash } from "lucide-react";
+import { deleteAnswer } from '../lib/api';
 import { useRouter } from 'next/navigation';
 
 interface DisplayAnswerProps {
@@ -33,22 +41,47 @@ const DisplayAnswer = ({ question, handleShare }: DisplayAnswerProps) => {
             {
                 question?.answer?.map((ans: any) => (
                     <div className="pb-6 border-b border-gray-200 mb-6" key={ans._id}>
-                        <p className="text-sm leading-6 whitespace-pre-line text-gray-800 mb-4">{ans.answerBody}</p>
-                        <div className="flex justify-between items-center w-full">
-                            <div className="flex gap-2">
-                                <button type='button' onClick={handleShare} className="text-gray-500 text-sm hover:text-gray-700 transition-colors">Share</button>
-                                {
-                                    User?.result?._id === ans?.userId && (
-                                        <button type='button' onClick={() => handleDelete(ans._id, question.noOfAnswers)} className="text-red-500 text-sm hover:text-red-700 transition-colors">Delete</button>
-                                    )
-                                }
+                        <div className="flex justify-between items-start mb-4">
+                            <p className="text-sm leading-6 whitespace-pre-line text-gray-800 flex-1 pr-4">{ans.answerBody}</p>
+                            <div className="flex gap-4 shrink-0 mt-1">
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={handleShare}
+                                    className="flex items-center gap-2 text-gray-500 hover:text-gray-900 border-gray-200 rounded-full"
+                                >
+                                    <Share size={16} />
+                                    <span>Share</span>
+                                </Button>
+                                {User?.result?._id === ans?.userId && (
+                                    <div
+                                        onClick={() => handleDelete(ans._id, question.noOfAnswers)}
+                                        className="flex items-center gap-2 cursor-pointer text-red-500 hover:text-red-700 transition-colors"
+                                    >
+                                        <Trash size={18} />
+                                        <span className="text-sm font-medium">Delete</span>
+                                    </div>
+                                )}
                             </div>
-                            <div>
-                                <p className="text-xs text-gray-500 mb-1">answered {moment(ans.answeredOn).fromNow()}</p>
-                                <Link href={`/Users/${ans.userId}`} className='flex items-center text-[#007ac6] no-underline'>
-                                    <Avatar backgroundColor='#009dff' px='8px' py='5px' color='white' borderRadius='4px'>{ans.userAnswered.charAt(0).toUpperCase()}</Avatar>
-                                    <div className="px-2 text-sm">{ans.userAnswered}</div>
+                        </div>
+                        <div className="flex justify-end items-center w-full">
+                            <div className="flex items-center gap-4">
+                                <Link href={`/Users/${ans.userId}`} className='flex items-center gap-2 text-[#007ac6] no-underline hover:text-[#005991]'>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <Avatar className="h-8 w-8 cursor-pointer">
+                                                <AvatarImage src="" />
+                                                <AvatarFallback className="bg-[#009dff] text-white">
+                                                    {ans.userAnswered ? ans.userAnswered.charAt(0).toUpperCase() : 'U'}
+                                                </AvatarFallback>
+                                            </Avatar>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p>{ans.userAnswered}</p>
+                                        </TooltipContent>
+                                    </Tooltip>
                                 </Link>
+                                <p className="text-xs text-gray-500">answered {moment(ans.answeredOn).fromNow()}</p>
                             </div>
                         </div>
                     </div>

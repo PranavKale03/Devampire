@@ -1,215 +1,400 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import Image from 'next/image';
-import Link from 'next/link';
-import moment from 'moment';
-import copy from 'copy-to-clipboard';
+import React, { useState, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
+import moment from "moment";
+import copy from "copy-to-clipboard";
+import { ChevronUp, ChevronDown, Share } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
-import LeftSidebar from '@/components/LeftSidebar';
-import RightSidebar from '@/components/RightSidebar';
-import DisplayAnswer from '@/components/DisplayAnswer';
-import Avatar from '@/components/Avatar';
-import { getAllQuestions, postAnswer, deleteQuestion, voteQuestion } from '@/lib/api';
-import { ChevronUp, ChevronDown } from 'lucide-react';
+import DisplayAnswer from "@/components/DisplayAnswer";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  getAllQuestions,
+  postAnswer,
+  deleteQuestion,
+  voteQuestion,
+} from "@/lib/api";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Separator } from "@/components/ui/separator";
 
 const QuestionDetails = () => {
-    const { id } = useParams();
-    const [questionsList, setQuestionsList] = useState<{ data: any[] | null }>({ data: null });
-    const [Answer, setAnswer] = useState("");
-    const [User, setUser] = useState<any>(null);
-    const [isLoading, setIsLoading] = useState(true);
+  const { id } = useParams();
+  const [questionsList, setQuestionsList] = useState<{ data: any[] | null }>({
+    data: null,
+  });
+  const [Answer, setAnswer] = useState("");
+  const [User, setUser] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-    const router = useRouter();
-    const url = typeof window !== 'undefined' ? window.location.href : '';
+  const router = useRouter();
+  const url = typeof window !== "undefined" ? window.location.href : "";
 
-    useEffect(() => {
-        const fetchQuestions = async () => {
-            try {
-                const { data } = await getAllQuestions();
-                setQuestionsList({ data });
-            } catch (error) {
-                console.log(error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        fetchQuestions();
-
-        if (typeof window !== 'undefined') {
-            const profile = localStorage.getItem('Profile');
-            if (profile) setUser(JSON.parse(profile));
-        }
-    }, []);
-
-    const handlePostAns = async (e: React.FormEvent, answerLength: number) => {
-        e.preventDefault();
-        if (User === null) {
-            alert("Login or Signup to answer a question");
-            router.push("/auth");
-        } else {
-            if (Answer === "") {
-                alert("Enter an answer before submitting");
-            } else {
-                try {
-                    await postAnswer(id as string, answerLength + 1, Answer, User.result.name, User.result._id);
-                    setAnswer("");
-                    // Refresh data
-                    const { data } = await getAllQuestions();
-                    setQuestionsList({ data });
-                } catch (error) {
-                    console.log(error);
-                }
-            }
-        }
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const { data } = await getAllQuestions();
+        setQuestionsList({ data });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
     };
+    fetchQuestions();
 
-    const handleShare = () => {
-        copy(url);
-        alert("Copied url : " + url);
-    };
+    if (typeof window !== "undefined") {
+      const profile = localStorage.getItem("Profile");
+      if (profile) setUser(JSON.parse(profile));
+    }
+  }, []);
 
-    const handleDelete = async () => {
+  const handlePostAns = async (e: React.FormEvent, answerLength: number) => {
+    e.preventDefault();
+    if (User === null) {
+      alert("Login or Signup to answer a question");
+      router.push("/auth");
+    } else {
+      if (Answer === "") {
+        alert("Enter an answer before submitting");
+      } else {
         try {
-            await deleteQuestion(id as string);
-            router.push('/');
+          await postAnswer(
+            id as string,
+            answerLength + 1,
+            Answer,
+            User.result.name,
+            User.result._id
+          );
+          setAnswer("");
+          const { data } = await getAllQuestions();
+          setQuestionsList({ data });
         } catch (error) {
-            console.log(error);
+          console.log(error);
         }
-    };
+      }
+    }
+  };
 
-    const handleUpVote = async () => {
-        if (User === null) {
-            alert("Login or Signup to up vote a question");
-            router.push("/auth");
-        } else {
-            try {
-                await voteQuestion(id as string, "upVote", User.result._id);
-                // Refresh
-                const { data } = await getAllQuestions();
-                setQuestionsList({ data });
-            } catch (error) {
-                console.log(error);
-            }
-        }
-    };
+  const handleShare = () => {
+    copy(url);
+    alert("Copied url : " + url);
+  };
 
-    const handleDownVote = async () => {
-        if (User === null) {
-            alert("Login or Signup to down vote a question");
-            router.push("/auth");
-        } else {
-            try {
-                await voteQuestion(id as string, "downVote", User.result._id);
-                // Refresh
-                const { data } = await getAllQuestions();
-                setQuestionsList({ data });
-            } catch (error) {
-                console.log(error);
-            }
-        }
-    };
+  const handleDelete = async () => {
+    try {
+      await deleteQuestion(id as string);
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    return (
-        <div className="flex justify-center w-full min-h-screen bg-white max-w-[1250px] mx-auto">
-            <LeftSidebar />
-            <div className="flex flex-col w-full max-w-[1100px] p-6 box-border">
-                <div className="flex w-full">
-                    <main className="w-full lg:w-[calc(100%-320px)] lg:mr-6">
-                        {isLoading ? (
-                            <h1 className="text-xl font-medium mt-10">Loading...</h1>
-                        ) : (
-                            <>
-                                {questionsList.data
-                                    ?.filter((question) => question._id === id)
-                                    .map((question) => (
-                                        <div key={question._id}>
-                                            <section className="mb-6 pb-6 border-b border-gray-200">
-                                                <h1 className="text-3xl font-normal text-gray-800 mb-4">{question.questionTitle}</h1>
-                                                <div className="flex gap-4">
-                                                    <div className="flex flex-col items-center gap-2 pr-4">
-                                                        <ChevronUp size={36} className="cursor-pointer text-gray-400 hover:text-[#ef8236]" onClick={handleUpVote} />
-                                                        <p className="text-xl font-medium text-gray-600 font-sans">{question.upVote.length - question.downVote.length}</p>
-                                                        <ChevronDown size={36} className="cursor-pointer text-gray-400 hover:text-[#ef8236]" onClick={handleDownVote} />
-                                                    </div>
-                                                    <div className="w-full">
-                                                        <p className="text-base leading-6 whitespace-pre-line text-gray-800 mb-4">{question.questionBody}</p>
-                                                        <div className="flex flex-wrap gap-2 mb-6">
-                                                            {question.questionTags.map((tag: string) => (
-                                                                <p key={tag} className="bg-[#e1ecf4] text-[#39739d] px-2 py-1 rounded text-xs cursor-pointer hover:bg-[#d0e3f1]">{tag}</p>
-                                                            ))}
-                                                        </div>
-                                                        <div className="flex justify-between items-center pt-4">
-                                                            <div className="flex gap-2">
-                                                                <button type="button" onClick={handleShare} className="text-gray-500 text-sm hover:text-gray-700 transition-colors">Share</button>
-                                                                {User?.result?._id === question?.userId && (
-                                                                    <button type="button" onClick={handleDelete} className="text-red-500 text-sm hover:text-red-700 transition-colors">Delete</button>
-                                                                )}
-                                                            </div>
-                                                            <div>
-                                                                <p className="text-xs text-gray-500 mb-1">asked {moment(question.askedOn).fromNow()}</p>
-                                                                <Link href={`/Users/${question.userId}`} className="flex items-center text-[#007ac6] no-underline">
-                                                                    <Avatar backgroundColor="#ef8236" px="8px" py="5px" color='white' borderRadius="4px">
-                                                                        {question.userPosted.charAt(0).toUpperCase()}
-                                                                    </Avatar>
-                                                                    <div className="px-2 text-sm">{question.userPosted}</div>
-                                                                </Link>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </section>
+  const handleUpVote = async () => {
+    if (User === null) {
+      alert("Login or Signup to up vote a question");
+      router.push("/auth");
+    } else {
+      try {
+        await voteQuestion(id as string, "upVote", User.result._id);
+        const { data } = await getAllQuestions();
+        setQuestionsList({ data });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
-                                            {question.noOfAnswers !== 0 && (
-                                                <section className="mb-8">
-                                                    <h3 className="text-xl font-normal text-gray-800 mb-6">{question.noOfAnswers} answers</h3>
-                                                    <DisplayAnswer
-                                                        question={question}
-                                                        handleShare={handleShare}
-                                                    />
-                                                </section>
-                                            )}
+  const handleDownVote = async () => {
+    if (User === null) {
+      alert("Login or Signup to down vote a question");
+      router.push("/auth");
+    } else {
+      try {
+        await voteQuestion(id as string, "downVote", User.result._id);
+        const { data } = await getAllQuestions();
+        setQuestionsList({ data });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
-                                            <section className="mt-8">
-                                                <h3 className="text-xl font-normal text-gray-800 mb-4">Your Answer</h3>
-                                                <form onSubmit={(e) => { handlePostAns(e, question.answer.length); }}>
-                                                    <textarea
-                                                        className="w-full p-4 border border-gray-300 rounded focus:border-[#009dff] focus:ring-1 focus:ring-[#009dff] outline-none min-h-[200px] mb-4 text-sm font-mono"
-                                                        cols={30}
-                                                        rows={10}
-                                                        onChange={(e) => setAnswer(e.target.value)}
-                                                        value={Answer}
-                                                    ></textarea>
-                                                    <input
-                                                        type="submit"
-                                                        className="bg-[#009dff] hover:bg-[#007ac6] text-white py-3 px-6 rounded-md cursor-pointer transition-colors font-medium text-sm"
-                                                        value="Post Your Answer"
-                                                    />
-                                                </form>
-                                                <p className="mt-8 text-sm text-gray-600">
-                                                    Browse other Question tagged
-                                                    {question.questionTags.map((tag: string) => (
-                                                        <Link href="/tags" key={tag} className="text-[#007ac6] mx-1 hover:text-[#005991]">
-                                                            {tag}
-                                                        </Link>
-                                                    ))}{" "}
-                                                    or
-                                                    <Link href="/ask-question" className="text-[#007ac6] ml-1 hover:text-[#005991] no-underline">
-                                                        ask your own question.
-                                                    </Link>
-                                                </p>
-                                            </section>
-                                        </div>
-                                    ))}
-                            </>
-                        )}
-                    </main>
-                    <RightSidebar />
+  return (
+    <div className="flex justify-center w-full min-h-screen bg-white max-w-7xl mx-auto px-6 md:px-12 py-12 pt-20">
+      <div className="flex w-full">
+        {/* Main Content - 70% */}
+        <main className="w-full lg:flex-1">
+          {isLoading ? (
+            <div className="w-full">
+              {/* Header Skeleton */}
+              {/* Header Skeleton */}
+              <div className="mb-6 pb-6 border-b border-gray-200">
+                <Skeleton className="h-10 w-3/4 mb-4 bg-gray-100" />
+                <div className="space-y-2 mb-6">
+                  <Skeleton className="h-4 w-full bg-gray-100" />
+                  <Skeleton className="h-4 w-full bg-gray-100" />
+                  <Skeleton className="h-4 w-2/3 bg-gray-100" />
                 </div>
+                <div className="flex gap-2 mb-6">
+                  <Skeleton className="h-6 w-16 rounded bg-gray-100" />
+                  <Skeleton className="h-6 w-16 rounded bg-gray-100" />
+                  <Skeleton className="h-6 w-16 rounded bg-gray-100" />
+                </div>
+                <div className="flex justify-between items-center pt-4">
+                  <div className="flex gap-4">
+                    <Skeleton className="h-10 w-24 rounded bg-gray-100" />
+                    <Skeleton className="h-10 w-24 rounded bg-gray-100" />
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <Skeleton className="h-8 w-20 rounded bg-gray-100" />
+                    <Skeleton className="h-3 w-24 bg-gray-100" />
+                    <div className="flex items-center gap-2">
+                      <Skeleton className="h-4 w-20 bg-gray-100" />
+                      <Skeleton className="h-8 w-8 rounded-full bg-gray-100" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* Answer Form Skeleton */}
+              <div className="mb-8">
+                <Skeleton className="h-6 w-32 mb-4 bg-gray-100" />
+                <Skeleton className="h-40 w-full rounded-lg bg-gray-100 mb-4" />
+                <Skeleton className="h-10 w-36 rounded-md bg-gray-100" />
+              </div>
             </div>
-        </div>
-    );
+          ) : (
+            <>
+              {questionsList.data
+                ?.filter((question) => question._id === id)
+                .map((question) => (
+                  <div key={question._id}>
+                    <section className="mb-6 pb-6 border-b border-gray-200">
+                      <div className="flex justify-between items-start mb-4">
+                        <h1 className="text-3xl font-medium text-gray-900 flex-1 pr-4">
+                          {question.questionTitle}
+                        </h1>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={handleShare}
+                          className="flex items-center gap-2 text-gray-500 hover:text-gray-900 border-gray-200 rounded-full mt-1"
+                        >
+                          <Share size={16} />
+                          <span>Share</span>
+                        </Button>
+                      </div>
+                      <p className="text-base leading-7 whitespace-pre-line text-gray-800 mb-6">
+                        {question.questionBody}
+                      </p>
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        {question.questionTags
+                          .flatMap((tag: string) => tag.split(" "))
+                          .filter((t: string) => t.trim() !== "")
+                          .map((tag: string, index: number) => (
+                            <Badge
+                              key={index}
+                              variant="secondary"
+                              className="font-normal rounded-md px-2 py-1"
+                            >
+                              {tag}
+                            </Badge>
+                          ))}
+                      </div>
+                      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pt-4">
+                        <div className="flex gap-2">
+                          <Button
+                            variant="ghost"
+                            onClick={handleUpVote}
+                            className="flex items-center gap-1 text-gray-600 hover:text-[#ef8236] hover:bg-orange-50"
+                          >
+                            <ChevronUp size={20} />
+                            <span>Upvote</span>
+                            <span className="font-semibold ml-1">
+                              {question.upVote.length}
+                            </span>
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            onClick={handleDownVote}
+                            className="flex items-center gap-1 text-gray-600 hover:text-[#ef8236] hover:bg-orange-50"
+                          >
+                            <ChevronDown size={20} />
+                            <span>Downvote</span>
+                            <span className="font-semibold ml-1">
+                              {question.downVote.length}
+                            </span>
+                          </Button>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <Link
+                            href={`/Users/${question.userId}`}
+                            className="flex items-center gap-2 text-[#007ac6] no-underline hover:text-[#005991]"
+                          >
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Avatar className="h-8 w-8 cursor-pointer">
+                                  <AvatarImage src="" />{" "}
+                                  {/* Add user image URL if available */}
+                                  <AvatarFallback className="bg-[#ef8236] text-white">
+                                    {question.userPosted
+                                      .charAt(0)
+                                      .toUpperCase()}
+                                  </AvatarFallback>
+                                </Avatar>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>{question.userPosted}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </Link>
+                          <p className="text-xs text-gray-500">
+                            asked {moment(question.askedOn).fromNow()}
+                          </p>
+                        </div>
+                      </div>
+                      {User?.result?._id === question?.userId && (
+                        <div className="mt-2 text-right">
+                          <button
+                            type="button"
+                            onClick={handleDelete}
+                            className="text-red-500 text-sm hover:text-red-700 transition-colors font-medium"
+                          >
+                            Delete Question
+                          </button>
+                        </div>
+                      )}
+                    </section>
+
+                    {/* Your Answer Section (Moved to Top) */}
+                    <section className="mb-8">
+                      <h3 className="text-xl font-medium text-gray-900 mb-4">
+                        Your Answer
+                      </h3>
+                      <form
+                        onSubmit={(e) => {
+                          handlePostAns(e, question.answer.length);
+                        }}
+                      >
+                        <textarea
+                          className="w-full p-4 border border-gray-300 rounded-lg focus:border-[#ef8236] focus:ring-1 focus:ring-[#ef8236] outline-none min-h-[160px] mb-4 text-sm font-sans"
+                          onChange={(e) => setAnswer(e.target.value)}
+                          value={Answer}
+                          placeholder="Write your answer..."
+                        ></textarea>
+                        <Button type="submit" className="rounded-full">
+                          Post Your Answer
+                        </Button>
+                      </form>
+                    </section>
+
+                    {/* Answers List */}
+                    {question.noOfAnswers !== 0 && (
+                      <section>
+                        <h3 className="text-xl font-medium text-gray-900 mb-6">
+                          {question.noOfAnswers} Answers
+                        </h3>
+                        <DisplayAnswer
+                          question={question}
+                          handleShare={handleShare}
+                        />
+                      </section>
+                    )}
+                  </div>
+                ))}
+            </>
+          )}
+        </main>
+
+        <Separator
+          orientation="vertical"
+          className="hidden lg:block mx-6 h-auto"
+        />
+        {/* Related Questions Sidebar - 30% */}
+        <aside className="hidden lg:flex flex-col w-[30%] gap-4">
+          <h3 className="text-lg font-semibold text-gray-800 mb-2">
+            Related Questions
+          </h3>
+          <div className="flex flex-col gap-3">
+            {isLoading ? (
+              [1, 2, 3, 4, 5].map((i) => (
+                <div
+                  key={i}
+                  className="border border-gray-200 rounded-xl p-4 bg-white"
+                >
+                  <Skeleton className="h-4 w-full mb-2 bg-gray-100" />
+                  <Skeleton className="h-4 w-2/3 mb-3 bg-gray-100" />
+                  <div className="flex justify-between items-end">
+                    <div className="flex gap-1">
+                      <Skeleton className="h-4 w-10 bg-gray-100" />
+                      <Skeleton className="h-4 w-10 bg-gray-100" />
+                    </div>
+                    <Skeleton className="h-3 w-16 bg-gray-100" />
+                  </div>
+                </div>
+              ))
+            ) : (
+              <>
+                {questionsList.data
+                  ?.filter((q) => q._id !== id)
+                  .slice(0, 5)
+                  .map((relatedQ) => (
+                    <Card
+                      key={relatedQ._id}
+                      className="border-gray-200 hover:shadow-sm transition-shadow p-0"
+                    >
+                      <CardContent className="p-4">
+                        <Link
+                          href={`/questions/${relatedQ._id}`}
+                          className="text-[#007ac6] hover:text-[#005991] font-medium text-sm line-clamp-2 mb-2 block"
+                        >
+                          {relatedQ.questionTitle}
+                        </Link>
+                        <div className="flex justify-between items-end gap-2 mt-2">
+                          <div className="flex flex-wrap gap-1">
+                            {relatedQ.questionTags
+                              .flatMap((tag: string) => tag.split(" "))
+                              .filter((t: string) => t.trim() !== "")
+                              .slice(0, 4)
+                              .map((tag: string, index: number) => (
+                                <Badge
+                                  key={index}
+                                  variant="secondary"
+                                  className="font-normal text-[10px] px-1.5 py-0.5 h-auto"
+                                >
+                                  {tag}
+                                </Badge>
+                              ))}
+                          </div>
+                          <div className="text-xs text-gray-500 shrink-0 mb-0.5">
+                            {moment(relatedQ.askedOn).fromNow()}
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                {questionsList.data?.filter((q) => q._id !== id).length ===
+                  0 && (
+                  <p className="text-sm text-gray-500">
+                    No related questions found.
+                  </p>
+                )}
+              </>
+            )}
+          </div>
+        </aside>
+      </div>
+    </div>
+  );
 };
 
 export default QuestionDetails;
