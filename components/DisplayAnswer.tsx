@@ -40,15 +40,15 @@ const DisplayAnswer = ({ question, handleShare }: DisplayAnswerProps) => {
         <div className='w-full'>
             {
                 question?.answer?.map((ans: any) => (
-                    <div className="pb-6 border-b border-gray-200 mb-6" key={ans._id}>
+                    <div className="pb-6 border-b border-border mb-6" key={ans._id}>
                         <div className="flex justify-between items-start mb-4">
-                            <p className="text-sm leading-6 whitespace-pre-line text-gray-800 flex-1 pr-4">{ans.answerBody}</p>
+                            <p className="text-sm leading-6 whitespace-pre-line text-foreground flex-1 pr-4">{ans.answerBody}</p>
                             <div className="flex gap-4 shrink-0 mt-1">
                                 <Button
                                     variant="outline"
                                     size="sm"
                                     onClick={handleShare}
-                                    className="flex items-center gap-2 text-gray-500 hover:text-gray-900 border-gray-200 rounded-full"
+                                    className="flex items-center gap-2 text-muted-foreground hover:text-foreground border-border rounded-full"
                                 >
                                     <Share size={16} />
                                     <span>Share</span>
@@ -66,12 +66,12 @@ const DisplayAnswer = ({ question, handleShare }: DisplayAnswerProps) => {
                         </div>
                         <div className="flex justify-end items-center w-full">
                             <div className="flex items-center gap-4">
-                                <Link href={`/Users/${ans.userId}`} className='flex items-center gap-2 text-[#007ac6] no-underline hover:text-[#005991]'>
+                                <Link href={`/Users/${ans.userId}`} className='flex items-center gap-2 text-primary no-underline hover:text-primary/80'>
                                     <Tooltip>
                                         <TooltipTrigger asChild>
                                             <Avatar className="h-8 w-8 cursor-pointer">
                                                 <AvatarImage src="" />
-                                                <AvatarFallback className="bg-[#009dff] text-white">
+                                                <AvatarFallback className="bg-primary text-primary-foreground">
                                                     {ans.userAnswered ? ans.userAnswered.charAt(0).toUpperCase() : 'U'}
                                                 </AvatarFallback>
                                             </Avatar>
@@ -81,7 +81,7 @@ const DisplayAnswer = ({ question, handleShare }: DisplayAnswerProps) => {
                                         </TooltipContent>
                                     </Tooltip>
                                 </Link>
-                                <p className="text-xs text-gray-500">answered {moment(ans.answeredOn).fromNow()}</p>
+                                <p className="text-xs text-muted-foreground">answered {moment(ans.answeredOn).fromNow()}</p>
                             </div>
                         </div>
                     </div>

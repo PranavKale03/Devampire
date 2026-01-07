@@ -24,7 +24,7 @@ const staggerContainer: Variants = {
 
 export default function Home() {
     return (
-        <div className="w-full min-h-screen bg-white">
+        <div className="w-full min-h-screen bg-background">
             {/* <LeftSidebar /> */}
 
             <div className="w-full max-w-6xl mx-auto p-4 md:p-6 pb-20">
@@ -33,13 +33,13 @@ export default function Home() {
                     initial="hidden"
                     animate="visible"
                     variants={staggerContainer}
-                    className="flex flex-col items-center text-center py-12 md:py-16 gap-6 mb-8 border-b border-gray-100 pb-12"
+                    className="flex flex-col items-center text-center py-12 md:py-16 gap-6 mb-8 border-b border-border pb-12"
                 >
                     <motion.div variants={fadeInUp} className="flex flex-col items-center gap-4">
-                        <h1 className="text-4xl md:text-5xl font-bold text-[#2d2d2d] tracking-tight">
+                        <h1 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight">
                             Developer Questions
                         </h1>
-                        <p className="text-xl text-gray-500 font-light max-w-2xl">
+                        <p className="text-xl text-muted-foreground font-light max-w-2xl">
                             Browse, ask, and learn from the community's collective knowledge.
                         </p>
                     </motion.div>

@@ -130,7 +130,7 @@ const QuestionDetails = () => {
   };
 
   return (
-    <div className="flex justify-center w-full min-h-screen bg-white max-w-7xl mx-auto px-6 md:px-12 py-12 pt-20">
+    <div className="flex justify-center w-full min-h-screen bg-background max-w-7xl mx-auto px-6 md:px-12 py-12 pt-20">
       <div className="flex w-full">
         {/* Main Content - 70% */}
         <main className="w-full lg:flex-1">
@@ -138,38 +138,38 @@ const QuestionDetails = () => {
             <div className="w-full">
               {/* Header Skeleton */}
               {/* Header Skeleton */}
-              <div className="mb-6 pb-6 border-b border-gray-200">
-                <Skeleton className="h-10 w-3/4 mb-4 bg-gray-100" />
+              <div className="mb-6 pb-6 border-b border-border">
+                <Skeleton className="h-10 w-3/4 mb-4 bg-muted" />
                 <div className="space-y-2 mb-6">
-                  <Skeleton className="h-4 w-full bg-gray-100" />
-                  <Skeleton className="h-4 w-full bg-gray-100" />
-                  <Skeleton className="h-4 w-2/3 bg-gray-100" />
+                  <Skeleton className="h-4 w-full bg-muted" />
+                  <Skeleton className="h-4 w-full bg-muted" />
+                  <Skeleton className="h-4 w-2/3 bg-muted" />
                 </div>
                 <div className="flex gap-2 mb-6">
-                  <Skeleton className="h-6 w-16 rounded bg-gray-100" />
-                  <Skeleton className="h-6 w-16 rounded bg-gray-100" />
-                  <Skeleton className="h-6 w-16 rounded bg-gray-100" />
+                  <Skeleton className="h-6 w-16 rounded bg-muted" />
+                  <Skeleton className="h-6 w-16 rounded bg-muted" />
+                  <Skeleton className="h-6 w-16 rounded bg-muted" />
                 </div>
                 <div className="flex justify-between items-center pt-4">
                   <div className="flex gap-4">
-                    <Skeleton className="h-10 w-24 rounded bg-gray-100" />
-                    <Skeleton className="h-10 w-24 rounded bg-gray-100" />
+                    <Skeleton className="h-10 w-24 rounded bg-muted" />
+                    <Skeleton className="h-10 w-24 rounded bg-muted" />
                   </div>
                   <div className="flex items-center gap-4">
-                    <Skeleton className="h-8 w-20 rounded bg-gray-100" />
-                    <Skeleton className="h-3 w-24 bg-gray-100" />
+                    <Skeleton className="h-8 w-20 rounded bg-muted" />
+                    <Skeleton className="h-3 w-24 bg-muted" />
                     <div className="flex items-center gap-2">
-                      <Skeleton className="h-4 w-20 bg-gray-100" />
-                      <Skeleton className="h-8 w-8 rounded-full bg-gray-100" />
+                      <Skeleton className="h-4 w-20 bg-muted" />
+                      <Skeleton className="h-8 w-8 rounded-full bg-muted" />
                     </div>
                   </div>
                 </div>
               </div>
               {/* Answer Form Skeleton */}
               <div className="mb-8">
-                <Skeleton className="h-6 w-32 mb-4 bg-gray-100" />
-                <Skeleton className="h-40 w-full rounded-lg bg-gray-100 mb-4" />
-                <Skeleton className="h-10 w-36 rounded-md bg-gray-100" />
+                <Skeleton className="h-6 w-32 mb-4 bg-muted" />
+                <Skeleton className="h-40 w-full rounded-lg bg-muted mb-4" />
+                <Skeleton className="h-10 w-36 rounded-md bg-muted" />
               </div>
             </div>
           ) : (
@@ -178,22 +178,22 @@ const QuestionDetails = () => {
                 ?.filter((question) => question._id === id)
                 .map((question) => (
                   <div key={question._id}>
-                    <section className="mb-6 pb-6 border-b border-gray-200">
+                    <section className="mb-6 pb-6 border-b border-border">
                       <div className="flex justify-between items-start mb-4">
-                        <h1 className="text-3xl font-medium text-gray-900 flex-1 pr-4">
+                        <h1 className="text-3xl font-medium text-foreground flex-1 pr-4">
                           {question.questionTitle}
                         </h1>
                         <Button
                           variant="outline"
                           size="sm"
                           onClick={handleShare}
-                          className="flex items-center gap-2 text-gray-500 hover:text-gray-900 border-gray-200 rounded-full mt-1"
+                          className="flex items-center gap-2 text-muted-foreground hover:text-foreground border-border rounded-full mt-1"
                         >
                           <Share size={16} />
                           <span>Share</span>
                         </Button>
                       </div>
-                      <p className="text-base leading-7 whitespace-pre-line text-gray-800 mb-6">
+                      <p className="text-base leading-7 whitespace-pre-line text-foreground mb-6">
                         {question.questionBody}
                       </p>
                       <div className="flex flex-wrap gap-2 mb-6">
@@ -215,7 +215,7 @@ const QuestionDetails = () => {
                           <Button
                             variant="ghost"
                             onClick={handleUpVote}
-                            className="flex items-center gap-1 text-gray-600 hover:text-[#ef8236] hover:bg-orange-50"
+                            className="flex items-center gap-1 text-muted-foreground hover:text-foreground hover:bg-accent"
                           >
                             <ChevronUp size={20} />
                             <span>Upvote</span>
@@ -226,7 +226,7 @@ const QuestionDetails = () => {
                           <Button
                             variant="ghost"
                             onClick={handleDownVote}
-                            className="flex items-center gap-1 text-gray-600 hover:text-[#ef8236] hover:bg-orange-50"
+                            className="flex items-center gap-1 text-muted-foreground hover:text-foreground hover:bg-accent"
                           >
                             <ChevronDown size={20} />
                             <span>Downvote</span>
@@ -238,14 +238,14 @@ const QuestionDetails = () => {
                         <div className="flex items-center gap-4">
                           <Link
                             href={`/Users/${question.userId}`}
-                            className="flex items-center gap-2 text-[#007ac6] no-underline hover:text-[#005991]"
+                            className="flex items-center gap-2 text-primary no-underline hover:text-primary/80"
                           >
                             <Tooltip>
                               <TooltipTrigger asChild>
                                 <Avatar className="h-8 w-8 cursor-pointer">
                                   <AvatarImage src="" />{" "}
                                   {/* Add user image URL if available */}
-                                  <AvatarFallback className="bg-[#ef8236] text-white">
+                                  <AvatarFallback className="bg-primary text-primary-foreground">
                                     {question.userPosted
                                       .charAt(0)
                                       .toUpperCase()}
@@ -277,7 +277,7 @@ const QuestionDetails = () => {
 
                     {/* Your Answer Section (Moved to Top) */}
                     <section className="mb-8">
-                      <h3 className="text-xl font-medium text-gray-900 mb-4">
+                      <h3 className="text-xl font-medium text-foreground mb-4">
                         Your Answer
                       </h3>
                       <form
@@ -286,7 +286,7 @@ const QuestionDetails = () => {
                         }}
                       >
                         <textarea
-                          className="w-full p-4 border border-gray-300 rounded-lg focus:border-[#ef8236] focus:ring-1 focus:ring-[#ef8236] outline-none min-h-[160px] mb-4 text-sm font-sans"
+                          className="w-full p-4 border border-border rounded-lg focus:border-ring focus:ring-1 focus:ring-ring bg-background text-foreground outline-none min-h-[160px] mb-4 text-sm font-sans"
                           onChange={(e) => setAnswer(e.target.value)}
                           value={Answer}
                           placeholder="Write your answer..."
@@ -300,7 +300,7 @@ const QuestionDetails = () => {
                     {/* Answers List */}
                     {question.noOfAnswers !== 0 && (
                       <section>
-                        <h3 className="text-xl font-medium text-gray-900 mb-6">
+                        <h3 className="text-xl font-medium text-foreground mb-6">
                           {question.noOfAnswers} Answers
                         </h3>
                         <DisplayAnswer
@@ -321,7 +321,7 @@ const QuestionDetails = () => {
         />
         {/* Related Questions Sidebar - 30% */}
         <aside className="hidden lg:flex flex-col w-[30%] gap-4">
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">
+          <h3 className="text-lg font-semibold text-foreground mb-2">
             Related Questions
           </h3>
           <div className="flex flex-col gap-3">
@@ -329,16 +329,16 @@ const QuestionDetails = () => {
               [1, 2, 3, 4, 5].map((i) => (
                 <div
                   key={i}
-                  className="border border-gray-200 rounded-xl p-4 bg-white"
+                  className="border border-border rounded-xl p-4 bg-card"
                 >
-                  <Skeleton className="h-4 w-full mb-2 bg-gray-100" />
-                  <Skeleton className="h-4 w-2/3 mb-3 bg-gray-100" />
+                  <Skeleton className="h-4 w-full mb-2 bg-muted" />
+                  <Skeleton className="h-4 w-2/3 mb-3 bg-muted" />
                   <div className="flex justify-between items-end">
                     <div className="flex gap-1">
-                      <Skeleton className="h-4 w-10 bg-gray-100" />
-                      <Skeleton className="h-4 w-10 bg-gray-100" />
+                      <Skeleton className="h-4 w-10 bg-muted" />
+                      <Skeleton className="h-4 w-10 bg-muted" />
                     </div>
-                    <Skeleton className="h-3 w-16 bg-gray-100" />
+                    <Skeleton className="h-3 w-16 bg-muted" />
                   </div>
                 </div>
               ))
@@ -350,12 +350,12 @@ const QuestionDetails = () => {
                   .map((relatedQ) => (
                     <Card
                       key={relatedQ._id}
-                      className="border-gray-200 hover:shadow-sm transition-shadow p-0"
+                      className="border-border hover:shadow-sm transition-shadow p-0 bg-card"
                     >
                       <CardContent className="p-4">
                         <Link
                           href={`/questions/${relatedQ._id}`}
-                          className="text-[#007ac6] hover:text-[#005991] font-medium text-sm line-clamp-2 mb-2 block"
+                          className="text-primary hover:text-primary/80 font-medium text-sm line-clamp-2 mb-2 block"
                         >
                           {relatedQ.questionTitle}
                         </Link>
@@ -384,10 +384,10 @@ const QuestionDetails = () => {
                   ))}
                 {questionsList.data?.filter((q) => q._id !== id).length ===
                   0 && (
-                  <p className="text-sm text-gray-500">
-                    No related questions found.
-                  </p>
-                )}
+                    <p className="text-sm text-gray-500">
+                      No related questions found.
+                    </p>
+                  )}
               </>
             )}
           </div>
