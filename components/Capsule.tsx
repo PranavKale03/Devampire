@@ -11,8 +11,8 @@ interface CapsuleProps {
 const Capsule: React.FC<CapsuleProps> = ({ title, href, variant = "primary" }) => {
   const styles =
     variant === "secondary"
-      ? "border-[#ef8236] text-[#ef8236] hover:bg-[#ef8236]/5"
-      : "border-black/60 text-black/80 hover:bg-black/5";
+      ? "border-border text-foreground hover:bg-muted/50"
+      : "border-border text-muted-foreground hover:bg-muted/50";
 
   const content = (
     <div className={`inline-flex items-center gap-2 rounded-full border px-4 py-1 text-sm font-medium mb-4 transition-colors ${styles}`}>

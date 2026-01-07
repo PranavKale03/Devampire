@@ -50,7 +50,7 @@ const HomeMainbar = () => {
     }
 
     return (
-        <div className='flex-grow p-6 bg-white min-h-screen'>
+        <div className='flex-grow p-6 bg-background min-h-screen'>
             <div className="flex justify-between items-center mb-6">
                 {
                     pathname === '/' ? <h1 className="text-3xl font-normal">Top Questions</h1> : <h1 className="text-3xl font-normal">All Questions</h1>
@@ -62,27 +62,27 @@ const HomeMainbar = () => {
                     isLoading ?
                         <div className="flex flex-col gap-4">
                             {[1, 2, 3].map((i) => (
-                                <div key={i} className="flex p-4 border border-gray-200 rounded-2xl w-full bg-white gap-4">
+                                <div key={i} className="flex p-4 border border-border rounded-2xl w-full bg-card gap-4">
                                     <div className="flex flex-col gap-2 w-12 shrink-0 items-center">
-                                        <Skeleton className="h-6 w-8 rounded bg-gray-100" />
-                                        <Skeleton className="h-3 w-8 rounded bg-gray-100" />
+                                        <Skeleton className="h-6 w-8 rounded bg-muted" />
+                                        <Skeleton className="h-3 w-8 rounded bg-muted" />
                                     </div>
                                     <div className="flex flex-col flex-grow gap-3">
-                                        <Skeleton className="h-6 w-[80%] rounded bg-gray-100" />
+                                        <Skeleton className="h-6 w-[80%] rounded bg-muted" />
                                         <div className="flex justify-between items-end">
                                             <div className="flex gap-2">
-                                                <Skeleton className="h-5 w-12 rounded bg-gray-100" />
-                                                <Skeleton className="h-5 w-12 rounded bg-gray-100" />
-                                                <Skeleton className="h-5 w-12 rounded bg-gray-100" />
+                                                <Skeleton className="h-5 w-12 rounded bg-muted" />
+                                                <Skeleton className="h-5 w-12 rounded bg-muted" />
+                                                <Skeleton className="h-5 w-12 rounded bg-muted" />
                                             </div>
-                                            <Skeleton className="h-3 w-24 rounded bg-gray-100" />
+                                            <Skeleton className="h-3 w-24 rounded bg-muted" />
                                         </div>
                                     </div>
                                 </div>
                             ))}
                         </div> :
                         <>
-                            <p className="text-gray-500 mb-4">{questionsList.data?.length || 0} questions</p>
+                            <p className="text-muted-foreground mb-4">{questionsList.data?.length || 0} questions</p>
                             <QuestionList questionsList={questionsList.data || []} />
                         </>
                 }

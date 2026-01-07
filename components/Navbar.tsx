@@ -7,14 +7,16 @@ import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 
 import logo from "../public/assets/Stack-Logo.png";
-import { Search } from "lucide-react";
+import { Search, Sun, Moon } from "lucide-react";
 import Avatar from "./Avatar";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { useTheme } from "next-themes";
 
 const Navbar = () => {
   // Mock user for UI development if Redux not ready
   const [User, setUser] = useState<any>(null);
+  const { theme, setTheme } = useTheme();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -40,36 +42,46 @@ const Navbar = () => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-white/60 backdrop-blur-md rounded-full border border-gray-200 px-4 py-3 flex items-center justify-between gap-8 w-[90%] md:w-[65%] transition-all"
+      className="fixed top-10 left-1/2 transform -translate-x-1/2 z-50 bg-background/60 backdrop-blur-md rounded-full border border-border px-4 py-3 flex items-center justify-between gap-8 w-[90%] md:w-[65%] transition-all"
     >
       <div className="flex items-center">
         <Link href="/" className="flex items-center">
-          <span className="text-2xl font-bold text-[#ef8236]">DV</span>
+          <span className="text-2xl font-bold text-foreground">DV</span>
         </Link>
       </div>
 
-      <div className="hidden md:flex items-center gap-6">
+      <div className="hidden md:flex items-center gap-6 absolute left-1/2 transform -translate-x-1/2">
         <Link
           href="/home"
-          className="text-gray-600 hover:text-black font-medium text-sm transition-colors"
+          className="text-muted-foreground hover:text-foreground font-medium text-sm transition-colors"
         >
           Dashboard
         </Link>
         <Link
           href="/#about"
-          className="text-gray-600 hover:text-black font-medium text-sm transition-colors"
+          className="text-muted-foreground hover:text-foreground font-medium text-sm transition-colors"
         >
           About
         </Link>
         <Link
           href="/#features"
-          className="text-gray-600 hover:text-black font-medium text-sm transition-colors"
+          className="text-muted-foreground hover:text-foreground font-medium text-sm transition-colors"
         >
           Features
         </Link>
       </div>
 
-      <div className="flex items-center">
+      <div className="flex items-center gap-4">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          className="rounded-full"
+        >
+          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <span className="sr-only">Toggle theme</span>
+        </Button>
         {User === null ? (
           <Link href="/auth">
             <Button variant="outline" className="rounded-full h-9 px-6 text-sm">
