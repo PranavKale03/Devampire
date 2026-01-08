@@ -5,8 +5,45 @@ import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Devampire",
-  description: "A Stack Overflow clone",
+  title: "Devampire - Where Developers Grow & Share",
+  description:
+    "Join Devampire to ask questions, share knowledge, and build your career. A community-driven platform for developers to solve problems and advance their skills.",
+  keywords: [
+    "developer",
+    "coding",
+    "programming",
+    "web development",
+    "react",
+    "nextjs",
+    "community",
+  ],
+  openGraph: {
+    title: "Devampire - Where Developers Grow & Share",
+    description:
+      "Join the definitive collection of coding questions & answers. Learn, share, and build your career.",
+    url: "https://devampire.vercel.app",
+    siteName: "Devampire",
+    images: [
+      {
+        url: "/Logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Devampire Community",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Devampire - Where Developers Grow & Share",
+    description:
+      "Join the definitive collection of coding questions & answers. Learn, share, and build your career.",
+    images: ["/Logo.png"],
+  },
+  icons: {
+    icon: "/Logo.png",
+  },
 };
 
 export default function RootLayout({
