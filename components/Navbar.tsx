@@ -1,13 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
-import { useDispatch, useSelector } from "react-redux";
-
-import logo from "../public/assets/Stack-Logo.png";
-import { Search, Sun, Moon } from "lucide-react";
+import { Sun, Moon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -76,7 +73,14 @@ const Navbar = () => {
     >
       <div className="flex items-center">
         <Link href="/" className="flex items-center">
-          <span className="text-2xl font-bold text-foreground">DV</span>
+          <Image
+            src="/Logo.png"
+            alt="Devampire Logo"
+            width={40}
+            height={40}
+            className="rounded-full object-cover"
+            unoptimized
+          />
         </Link>
       </div>
 
