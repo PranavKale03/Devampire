@@ -1,6 +1,6 @@
 # 🧛‍♂️ Devampire
 
-**Devampire** is a community-driven Q&A platform built for developers — where programmers can ask questions, provide answers, and grow their reputation in a collaborative environment, much like *Stack Overflow*.  
+**Devampire** is a community-driven Q&A platform built for developers, where programmers can ask questions, provide answers, and grow their reputation in a collaborative environment, much like *Stack Overflow*.  
 
 Live Site: [Devampire](https://devampire.vercel.app)
 
