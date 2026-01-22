@@ -43,7 +43,7 @@ export default function LandingPage() {
         className="flex flex-col items-center justify-center text-center px-4 w-full h-[calc(100vh-50px)] min-h-[600px] gap-6"
       >
         <motion.div variants={fadeInUp}>
-          <Capsule title="Introducing questions" variant="secondary" />
+          <Capsule title="Introducing Dev Community" variant="secondary" />
         </motion.div>
         <motion.h1
           variants={fadeInUp}
