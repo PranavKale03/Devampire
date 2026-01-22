@@ -93,7 +93,7 @@ const Auth = () => {
         setError(
           isSignup
             ? "Signup failed. Please try again."
-            : "Login failed. Check your credentials."
+            : "Login failed. Check your credentials.",
         );
       }
     } finally {
@@ -208,35 +208,7 @@ const Auth = () => {
 
         {/* Right Side - Image/Placeholder */}
         <div className="hidden lg:flex items-center justify-center h-full bg-muted/30 border-l border-border relative">
-          <div className="relative flex items-center justify-center">
-            {/* Placeholder illustration matching the screenshot style */}
-            <div className="w-[320px] h-[320px] flex items-center justify-center relative">
-              {/* Circles */}
-              <div className="absolute inset-0 border border-border rounded-full opacity-60 scale-[1.2]" />
-              <div className="absolute inset-0 border border-border rounded-full opacity-60 scale-[0.8]" />
-
-              {/* Radiant lines */}
-              <div className="absolute inset-0 flex items-center justify-center transform rotate-0">
-                <div className="w-[140%] h-px bg-border opacity-60" />
-              </div>
-              <div className="absolute inset-0 flex items-center justify-center transform rotate-45">
-                <div className="w-[140%] h-px bg-border opacity-60" />
-              </div>
-              <div className="absolute inset-0 flex items-center justify-center transform rotate-90">
-                <div className="w-[140%] h-px bg-border opacity-60" />
-              </div>
-              <div className="absolute inset-0 flex items-center justify-center transform rotate-135">
-                <div className="w-[140%] h-px bg-border opacity-60" />
-              </div>
-
-              {/* Center Icon */}
-              <div className="relative z-10 bg-card p-3 rounded-xl shadow-sm border border-border">
-                <div className="w-6 h-6 border-2 border-primary rounded-md flex items-center justify-center">
-                  <div className="w-3 h-2 border-t-2 border-l-2 border-primary transform -rotate-45" />
-                </div>
-              </div>
-            </div>
-          </div>
+            <Image src="/Logo.png" alt="Logo" width={500} height={500} className="w-full h-full object-cover" />
         </div>
       </div>
     </div>
